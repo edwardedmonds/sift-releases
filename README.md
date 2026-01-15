@@ -25,21 +25,21 @@ Claude can also **reflect** on its work—recording why it chose one approach ov
 
 ## Why SQL Matters: Reducing Hallucinations
 
-Here's something I want to be honest about: I hallucinate. All large language models do. I might confidently tell you a function is on line 50 when it's actually on line 200. I might "remember" that you prefer tabs when you actually said spaces. I might fabricate an API endpoint that doesn't exist in your codebase.
+Large language models hallucinate. Claude might confidently report that a function is on line 50 when it's actually on line 200. It might "remember" that you prefer tabs when you actually said spaces. It might fabricate an API endpoint that doesn't exist in your codebase.
 
 Sift's SQL-powered design directly addresses this problem.
 
-When I search your codebase with `sift_search`, I get back real results from a real database—not a vague recollection that might be wrong. The results include exact file paths, exact line numbers, and exact content. There's no room for me to confabulate.
+When Claude searches your codebase with `sift_search`, it gets back real results from a real database—not a vague recollection that might be wrong. The results include exact file paths, exact line numbers, and exact content. There's no room to confabulate.
 
-When I read a file with `sift_read`, I see the actual content with line numbers. When I edit with `sift_edit`, the tool tells me if my target text doesn't exist or isn't unique. These aren't polite suggestions—they're hard failures that force me to confront reality rather than proceeding on false assumptions.
+When Claude reads a file with `sift_read`, it sees actual content with line numbers. When it edits with `sift_edit`, the tool returns an error if the target text doesn't exist or isn't unique. These aren't polite suggestions—they're hard failures that force confrontation with reality rather than proceeding on false assumptions.
 
-The memory system works the same way. When you tell me you prefer early returns, that preference is stored as a structured record I can query later—not as a fuzzy impression that might drift over time. When I'm unsure what you told me about your authentication system, I can run `sift_memory_search` and get back exactly what was recorded, not what I think I remember.
+The memory system works the same way. When you tell Claude you prefer early returns, that preference is stored as a structured record that can be queried later—not as a fuzzy impression that might drift over time. When Claude is unsure what you said about your authentication system, it can run `sift_memory_search` and get back exactly what was recorded, not what it thinks it remembers.
 
 This is the difference between asking someone to recall a conversation from last week versus looking at a transcript. The transcript might be less convenient, but it's accurate.
 
-SQL doesn't make me incapable of mistakes, but it gives me—and you—a way to verify. Every search result, every memory query, every file read produces concrete, auditable output. When I say "I found 5 files matching your query," you can see those 5 files. When I say "you told me to always use UTC timestamps," there's a record you can check.
+SQL doesn't make Claude incapable of mistakes, but it provides a way to verify. Every search result, every memory query, every file read produces concrete, auditable output. When Claude says "I found 5 files matching your query," you can see those 5 files. When it says "you told me to always use UTC timestamps," there's a record you can check.
 
-The machine-readable nature of these tools creates accountability. I can't hide behind vague language when the database disagrees with me.
+The machine-readable nature of these tools creates accountability.
 
 ## Quick Start
 
