@@ -99,412 +99,457 @@ Create a config.json file with some settings, then update the timeout value to 3
 
 ### Memory
 
-<details>
-<summary><b>sift_memory_add</b> — Store patterns, preferences, plans, tasks, or gotchas</summary>
-
-Creates a new memory entry that persists across sessions. Memories are automatically tagged, indexed for search, and checked for conflicts with existing knowledge.
-
-**Types:**
-- `pattern` — Coding conventions and workflows
-- `preference` — Personal style choices
-- `plan` — Multi-step implementation strategies
-- `task` — Work items with status tracking
-- `gotcha` — Lessons learned, things to avoid
-
-**Example prompt:**
-```
-Remember that in this project we use snake_case for Python and camelCase for JavaScript
-```
-</details>
-
-<details>
-<summary><b>sift_memory_search</b> — Full-text search across all memories</summary>
-
-Searches memories using FTS5 full-text search with synonym expansion and relevance scoring. Supports boolean operators (AND, OR, NOT) and phrase queries.
-
-**Example prompt:**
-```
-What do you remember about our authentication system?
-```
-</details>
-
-<details>
-<summary><b>sift_memory_list</b> — List memories by type or status</summary>
-
-Returns memories filtered by type, status, or parent. Useful for seeing all active tasks, all patterns, or steps under a specific plan.
-
-**Example prompt:**
-```
-Show me all the gotchas you've learned about this codebase
-```
-</details>
-
-<details>
-<summary><b>sift_memory_update</b> — Update memory status, priority, or content</summary>
-
-Modifies an existing memory's status (open, in_progress, done), priority, title, or description.
-
-**Example prompt:**
-```
-Mark the authentication refactor task as complete
-```
-</details>
-
-<details>
-<summary><b>sift_memory_delete</b> — Remove a memory</summary>
-
-Permanently deletes a memory and its associated decisions and links. Use for outdated or incorrect information.
-
-**Example prompt:**
-```
-Forget what you know about the old API endpoint format, we've changed it
-```
-</details>
-
-<details>
-<summary><b>sift_memory_decide</b> — Record a decision for a plan</summary>
-
-Stores a decision with its rationale, linked to a specific plan. Decisions are queryable later so you can understand why choices were made.
-
-**Example prompt:**
-```
-We decided to use PostgreSQL instead of MongoDB because we need ACID transactions
-```
-</details>
-
-<details>
-<summary><b>sift_memory_decisions</b> — Query past decisions</summary>
-
-Search through recorded decisions by plan or keyword. Helps recall why past architectural choices were made.
-
-**Example prompt:**
-```
-What decisions have we made about the database?
-```
-</details>
-
-<details>
-<summary><b>sift_memory_reflect</b> — Log reasoning, observations, or corrections</summary>
-
-Records Claude's thinking process, observations about the codebase, or lessons from corrections. Types: `reasoning`, `observation`, `correction`.
-
-**Example prompt:**
-```
-That's not right - we use UTC timestamps, not local time. Remember that.
-```
-</details>
-
-<details>
-<summary><b>sift_memory_reflections</b> — Search past reflections</summary>
-
-Query Claude's logged reflections to understand past reasoning or find patterns in corrections.
-
-**Example prompt:**
-```
-What corrections have you had to make in this project?
-```
-</details>
-
-<details>
-<summary><b>sift_memory_link</b> — Create dependencies between memories</summary>
-
-Establishes relationships between memories: `blocks` (task A blocks task B), `related`, or `parent`.
-
-**Example prompt:**
-```
-The database migration needs to be done before we can deploy the new API
-```
-</details>
-
-<details>
-<summary><b>sift_memory_deps</b> — Query memory dependencies</summary>
-
-Shows what blocks a task or what a task is blocking. Useful for understanding work dependencies.
-
-**Example prompt:**
-```
-What's blocking the deployment task?
-```
-</details>
-
-<details>
-<summary><b>sift_memory_ready</b> — Find tasks with no blockers</summary>
-
-Returns tasks that have no unfinished dependencies and are ready to work on.
-
-**Example prompt:**
-```
-What tasks can I work on right now?
-```
-</details>
-
-<details>
-<summary><b>sift_memory_stale</b> — Find old memories that may need review</summary>
-
-Lists memories that haven't been accessed in a specified number of days. Useful for cleanup and review.
-
-**Example prompt:**
-```
-Are there any old memories we should review or clean up?
-```
-</details>
-
-<details>
-<summary><b>sift_memory_stats</b> — Get memory database statistics</summary>
-
-Shows counts by type and status, active patterns, recent corrections, and database health. Called at session start to load context.
-
-**Example prompt:**
-```
-Give me an overview of what you remember about this project
-```
-</details>
-
-<details>
-<summary><b>sift_memory_config</b> — View ranking weight configuration</summary>
-
-Shows current search ranking weights for frequency, recency, priority, and context boosting.
-
-**Example prompt:**
-```
-How are memory search results being ranked?
-```
-</details>
-
-<details>
-<summary><b>sift_memory_tune</b> — Adjust search ranking weights</summary>
-
-Modifies how memories are ranked in search results. Requires a rationale for transparency.
-
-**Example prompt:**
-```
-Prioritize more recent memories in search results
-```
-</details>
-
-<details>
-<summary><b>sift_memory_backups</b> — List memory database backups</summary>
-
-Shows available backups of the memory database, created automatically each session.
-
-**Example prompt:**
-```
-Are there any memory backups available?
-```
-</details>
-
-<details>
-<summary><b>sift_memory_restore</b> — Restore from a backup</summary>
-
-Restores the memory database from a previous backup. Use if data was accidentally deleted.
-
-**Example prompt:**
-```
-Restore the memory database from yesterday's backup
-```
-</details>
-
-<details>
-<summary><b>sift_memory_import</b> — Import markdown plans into memory</summary>
-
-Converts a markdown file into a memory entry. Useful for migrating existing documentation.
-
-**Example prompt:**
-```
-Import the ARCHITECTURE.md file as a plan memory
-```
-</details>
+[sift_memory_add](#sift_memory_add) · [sift_memory_search](#sift_memory_search) · [sift_memory_list](#sift_memory_list) · [sift_memory_update](#sift_memory_update) · [sift_memory_delete](#sift_memory_delete) · [sift_memory_decide](#sift_memory_decide) · [sift_memory_decisions](#sift_memory_decisions) · [sift_memory_reflect](#sift_memory_reflect) · [sift_memory_reflections](#sift_memory_reflections) · [sift_memory_link](#sift_memory_link) · [sift_memory_deps](#sift_memory_deps) · [sift_memory_ready](#sift_memory_ready) · [sift_memory_stale](#sift_memory_stale) · [sift_memory_stats](#sift_memory_stats) · [sift_memory_config](#sift_memory_config) · [sift_memory_tune](#sift_memory_tune) · [sift_memory_backups](#sift_memory_backups) · [sift_memory_restore](#sift_memory_restore) · [sift_memory_import](#sift_memory_import)
 
 ### Search & Edit
 
-<details>
-<summary><b>sift_search</b> — FTS5 full-text search (30-195x faster than grep)</summary>
-
-Searches the indexed workspace using SQLite FTS5. Supports boolean queries (AND, OR, NOT, NEAR), prefix matching, and file filtering. Auto-initializes the index on first use.
-
-**Example prompt:**
-```
-Find all files that mention both "authentication" and "token"
-```
-</details>
-
-<details>
-<summary><b>sift_read</b> — Read files with line numbers</summary>
-
-Reads file contents with line numbers for accurate editing. Supports partial reads with start/end lines and whitespace visualization for debugging.
-
-**Example prompt:**
-```
-Show me the handleAuth function in auth.js
-```
-</details>
-
-<details>
-<summary><b>sift_edit</b> — Find/replace with fuzzy whitespace matching</summary>
-
-Performs find/replace operations with automatic whitespace normalization. Supports insert, delete, and patch modes. Shows visual diffs of changes.
-
-**Example prompt:**
-```
-Replace the hardcoded timeout of 5000 with a constant TIMEOUT_MS
-```
-</details>
-
-<details>
-<summary><b>sift_update</b> — Simple old_string/new_string replacement</summary>
-
-Straightforward text replacement with clear error messages. Fails if the target string isn't found or isn't unique.
-
-**Example prompt:**
-```
-Change the function name from processData to processUserData
-```
-</details>
-
-<details>
-<summary><b>sift_write</b> — Create or overwrite files</summary>
-
-Creates new files or completely replaces existing file contents. Creates parent directories if needed.
-
-**Example prompt:**
-```
-Create a new utils.js file with helper functions for date formatting
-```
-</details>
-
-<details>
-<summary><b>sift_batch</b> — Multiple edit operations atomically</summary>
-
-Executes multiple edits as a single atomic operation. All succeed or all fail, preventing partial updates.
-
-**Example prompt:**
-```
-Rename the "user" variable to "currentUser" in all three files
-```
-</details>
-
-<details>
-<summary><b>sift_transform</b> — SQL-based file transformation</summary>
-
-Transforms file contents using SQL queries with regex_replace, string functions, and more.
-
-**Example prompt:**
-```
-Convert all console.log statements to use our logger instead
-```
-</details>
-
-<details>
-<summary><b>sift_sql</b> — Run SQL on text input</summary>
-
-Executes SQL queries on piped text input. Useful for filtering, transforming, or analyzing text data.
-
-**Example prompt:**
-```
-Parse this CSV and show me only rows where the status is "failed"
-```
-</details>
-
-<details>
-<summary><b>sift_workspace</b> — Manage the search index</summary>
-
-Controls the workspace index: init, status, refresh, or rebuild. The index auto-initializes on first search.
-
-**Example prompt:**
-```
-Refresh the search index to pick up recent file changes
-```
-</details>
+[sift_search](#sift_search) · [sift_read](#sift_read) · [sift_edit](#sift_edit) · [sift_update](#sift_update) · [sift_write](#sift_write) · [sift_batch](#sift_batch) · [sift_transform](#sift_transform) · [sift_sql](#sift_sql) · [sift_workspace](#sift_workspace)
 
 ### Web & Repository
 
-<details>
-<summary><b>sift_web_crawl</b> — Crawl and index a website</summary>
+[sift_web_crawl](#sift_web_crawl) · [sift_web_search](#sift_web_search) · [sift_web_query](#sift_web_query) · [sift_web_stats](#sift_web_stats) · [sift_web_refresh](#sift_web_refresh) · [sift_repo_clone](#sift_repo_clone) · [sift_repo_search](#sift_repo_search) · [sift_repo_query](#sift_repo_query)
+
+---
+
+## Memory Tools
+
+<a name="sift_memory_add"></a>
+### sift_memory_add
+Store patterns, preferences, plans, tasks, or gotchas.
+
+Creates a new memory entry that persists across sessions. Memories are automatically tagged, indexed for search, and checked for conflicts with existing knowledge.
+
+**Types:** `pattern` · `preference` · `plan` · `task` · `gotcha`
+
+```
+Remember that in this project we use snake_case for Python and camelCase for JavaScript
+```
+
+---
+
+<a name="sift_memory_search"></a>
+### sift_memory_search
+Full-text search across all memories.
+
+Searches memories using FTS5 full-text search with synonym expansion and relevance scoring. Supports boolean operators (AND, OR, NOT) and phrase queries.
+
+```
+What do you remember about our authentication system?
+```
+
+---
+
+<a name="sift_memory_list"></a>
+### sift_memory_list
+List memories by type or status.
+
+Returns memories filtered by type, status, or parent. Useful for seeing all active tasks, all patterns, or steps under a specific plan.
+
+```
+Show me all the gotchas you've learned about this codebase
+```
+
+---
+
+<a name="sift_memory_update"></a>
+### sift_memory_update
+Update memory status, priority, or content.
+
+Modifies an existing memory's status (open, in_progress, done), priority, title, or description.
+
+```
+Mark the authentication refactor task as complete
+```
+
+---
+
+<a name="sift_memory_delete"></a>
+### sift_memory_delete
+Remove a memory.
+
+Permanently deletes a memory and its associated decisions and links. Use for outdated or incorrect information.
+
+```
+Forget what you know about the old API endpoint format, we've changed it
+```
+
+---
+
+<a name="sift_memory_decide"></a>
+### sift_memory_decide
+Record a decision for a plan.
+
+Stores a decision with its rationale, linked to a specific plan. Decisions are queryable later so you can understand why choices were made.
+
+```
+We decided to use PostgreSQL instead of MongoDB because we need ACID transactions
+```
+
+---
+
+<a name="sift_memory_decisions"></a>
+### sift_memory_decisions
+Query past decisions.
+
+Search through recorded decisions by plan or keyword. Helps recall why past architectural choices were made.
+
+```
+What decisions have we made about the database?
+```
+
+---
+
+<a name="sift_memory_reflect"></a>
+### sift_memory_reflect
+Log reasoning, observations, or corrections.
+
+Records Claude's thinking process, observations about the codebase, or lessons from corrections. Types: `reasoning`, `observation`, `correction`.
+
+```
+That's not right - we use UTC timestamps, not local time. Remember that.
+```
+
+---
+
+<a name="sift_memory_reflections"></a>
+### sift_memory_reflections
+Search past reflections.
+
+Query Claude's logged reflections to understand past reasoning or find patterns in corrections.
+
+```
+What corrections have you had to make in this project?
+```
+
+---
+
+<a name="sift_memory_link"></a>
+### sift_memory_link
+Create dependencies between memories.
+
+Establishes relationships between memories: `blocks` (task A blocks task B), `related`, or `parent`.
+
+```
+The database migration needs to be done before we can deploy the new API
+```
+
+---
+
+<a name="sift_memory_deps"></a>
+### sift_memory_deps
+Query memory dependencies.
+
+Shows what blocks a task or what a task is blocking. Useful for understanding work dependencies.
+
+```
+What's blocking the deployment task?
+```
+
+---
+
+<a name="sift_memory_ready"></a>
+### sift_memory_ready
+Find tasks with no blockers.
+
+Returns tasks that have no unfinished dependencies and are ready to work on.
+
+```
+What tasks can I work on right now?
+```
+
+---
+
+<a name="sift_memory_stale"></a>
+### sift_memory_stale
+Find old memories that may need review.
+
+Lists memories that haven't been accessed in a specified number of days. Useful for cleanup and review.
+
+```
+Are there any old memories we should review or clean up?
+```
+
+---
+
+<a name="sift_memory_stats"></a>
+### sift_memory_stats
+Get memory database statistics.
+
+Shows counts by type and status, active patterns, recent corrections, and database health. Called at session start to load context.
+
+```
+Give me an overview of what you remember about this project
+```
+
+---
+
+<a name="sift_memory_config"></a>
+### sift_memory_config
+View ranking weight configuration.
+
+Shows current search ranking weights for frequency, recency, priority, and context boosting.
+
+```
+How are memory search results being ranked?
+```
+
+---
+
+<a name="sift_memory_tune"></a>
+### sift_memory_tune
+Adjust search ranking weights.
+
+Modifies how memories are ranked in search results. Requires a rationale for transparency.
+
+```
+Prioritize more recent memories in search results
+```
+
+---
+
+<a name="sift_memory_backups"></a>
+### sift_memory_backups
+List memory database backups.
+
+Shows available backups of the memory database, created automatically each session.
+
+```
+Are there any memory backups available?
+```
+
+---
+
+<a name="sift_memory_restore"></a>
+### sift_memory_restore
+Restore from a backup.
+
+Restores the memory database from a previous backup. Use if data was accidentally deleted.
+
+```
+Restore the memory database from yesterday's backup
+```
+
+---
+
+<a name="sift_memory_import"></a>
+### sift_memory_import
+Import markdown plans into memory.
+
+Converts a markdown file into a memory entry. Useful for migrating existing documentation.
+
+```
+Import the ARCHITECTURE.md file as a plan memory
+```
+
+---
+
+## Search & Edit Tools
+
+<a name="sift_search"></a>
+### sift_search
+FTS5 full-text search (30-195x faster than grep).
+
+Searches the indexed workspace using SQLite FTS5. Supports boolean queries (AND, OR, NOT, NEAR), prefix matching, and file filtering. Auto-initializes the index on first use.
+
+```
+Find all files that mention both "authentication" and "token"
+```
+
+---
+
+<a name="sift_read"></a>
+### sift_read
+Read files with line numbers.
+
+Reads file contents with line numbers for accurate editing. Supports partial reads with start/end lines and whitespace visualization for debugging.
+
+```
+Show me the handleAuth function in auth.js
+```
+
+---
+
+<a name="sift_edit"></a>
+### sift_edit
+Find/replace with fuzzy whitespace matching.
+
+Performs find/replace operations with automatic whitespace normalization. Supports insert, delete, and patch modes. Shows visual diffs of changes.
+
+```
+Replace the hardcoded timeout of 5000 with a constant TIMEOUT_MS
+```
+
+---
+
+<a name="sift_update"></a>
+### sift_update
+Simple old_string/new_string replacement.
+
+Straightforward text replacement with clear error messages. Fails if the target string isn't found or isn't unique.
+
+```
+Change the function name from processData to processUserData
+```
+
+---
+
+<a name="sift_write"></a>
+### sift_write
+Create or overwrite files.
+
+Creates new files or completely replaces existing file contents. Creates parent directories if needed.
+
+```
+Create a new utils.js file with helper functions for date formatting
+```
+
+---
+
+<a name="sift_batch"></a>
+### sift_batch
+Multiple edit operations atomically.
+
+Executes multiple edits as a single atomic operation. All succeed or all fail, preventing partial updates.
+
+```
+Rename the "user" variable to "currentUser" in all three files
+```
+
+---
+
+<a name="sift_transform"></a>
+### sift_transform
+SQL-based file transformation.
+
+Transforms file contents using SQL queries with regex_replace, string functions, and more.
+
+```
+Convert all console.log statements to use our logger instead
+```
+
+---
+
+<a name="sift_sql"></a>
+### sift_sql
+Run SQL on text input.
+
+Executes SQL queries on piped text input. Useful for filtering, transforming, or analyzing text data.
+
+```
+Parse this CSV and show me only rows where the status is "failed"
+```
+
+---
+
+<a name="sift_workspace"></a>
+### sift_workspace
+Manage the search index.
+
+Controls the workspace index: init, status, refresh, or rebuild. The index auto-initializes on first search.
+
+```
+Refresh the search index to pick up recent file changes
+```
+
+---
+
+## Web & Repository Tools
+
+<a name="sift_web_crawl"></a>
+### sift_web_crawl
+Crawl and index a website.
 
 Downloads and indexes a website for offline searching. Respects robots.txt, follows links, and deduplicates content. Great for documentation sites.
 
-**Example prompt:**
 ```
 Index the React documentation so you can reference it offline
 ```
-</details>
 
-<details>
-<summary><b>sift_web_search</b> — Search indexed web content</summary>
+---
+
+<a name="sift_web_search"></a>
+### sift_web_search
+Search indexed web content.
 
 Full-text search across crawled websites. Supports boolean operators and returns relevant snippets.
 
-**Example prompt:**
 ```
 Search the React docs for information about useEffect cleanup
 ```
-</details>
 
-<details>
-<summary><b>sift_web_query</b> — SQL queries on web content</summary>
+---
+
+<a name="sift_web_query"></a>
+### sift_web_query
+SQL queries on web content.
 
 Run SQL queries directly on the web content database for advanced filtering and analysis.
 
-**Example prompt:**
 ```
 Find all pages in the docs that mention "deprecated"
 ```
-</details>
 
-<details>
-<summary><b>sift_web_stats</b> — Web database statistics</summary>
+---
+
+<a name="sift_web_stats"></a>
+### sift_web_stats
+Web database statistics.
 
 Shows page count, word count, domains indexed, and crawl timestamps for a web database.
 
-**Example prompt:**
 ```
 How much documentation do you have indexed?
 ```
-</details>
 
-<details>
-<summary><b>sift_web_refresh</b> — Update stale cached pages</summary>
+---
+
+<a name="sift_web_refresh"></a>
+### sift_web_refresh
+Update stale cached pages.
 
 Re-fetches pages that are older than a specified age. Keeps documentation caches current.
 
-**Example prompt:**
 ```
 Update any cached documentation pages older than a week
 ```
-</details>
 
-<details>
-<summary><b>sift_repo_clone</b> — Clone and index a git repository</summary>
+---
+
+<a name="sift_repo_clone"></a>
+### sift_repo_clone
+Clone and index a git repository.
 
 Clones a git repository and indexes its source code into a searchable database. Great for exploring unfamiliar codebases.
 
-**Example prompt:**
 ```
 Clone and index the lodash repository so we can study their implementation
 ```
-</details>
 
-<details>
-<summary><b>sift_repo_search</b> — Search indexed repository</summary>
+---
+
+<a name="sift_repo_search"></a>
+### sift_repo_search
+Search indexed repository.
 
 Full-text search across an indexed repository. Filter by language or file pattern.
 
-**Example prompt:**
 ```
 Search the lodash repo for debounce implementation
 ```
-</details>
 
-<details>
-<summary><b>sift_repo_query</b> — SQL queries on repository content</summary>
+---
+
+<a name="sift_repo_query"></a>
+### sift_repo_query
+SQL queries on repository content.
 
 Run SQL queries on indexed repository files. Query by language, line count, file path patterns.
 
-**Example prompt:**
 ```
 Find the largest files in the indexed repository
 ```
-</details>
+
+---
 
 ## Verify Download
 
