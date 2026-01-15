@@ -1,68 +1,64 @@
 # Sift
 
-**SQL-powered CLI for text processing and agent memory.**
+**SQL-powered MCP server for Claude Code.**
 
-Sift combines SQLite FTS5 full-text search with powerful text transformation capabilities, designed for AI agent workflows.
+Sift provides Claude Code with fast full-text search, intelligent file editing, and persistent memory across sessions.
 
-## Installation
+## Quick Start
 
-Download the latest release for your platform:
+### 1. Download
 
-### Linux (x86_64)
+**Linux (x86_64)**
 ```bash
 curl -LO https://github.com/edwardedmonds/sift-releases/releases/latest/download/sift-linux-x86_64
 chmod +x sift-linux-x86_64
 sudo mv sift-linux-x86_64 /usr/local/bin/sift
 ```
 
-### macOS (Apple Silicon)
+**macOS (Apple Silicon)**
 ```bash
 curl -LO https://github.com/edwardedmonds/sift-releases/releases/latest/download/sift-darwin-arm64
 chmod +x sift-darwin-arm64
 sudo mv sift-darwin-arm64 /usr/local/bin/sift
 ```
 
-### macOS (Intel)
+**macOS (Intel)**
 ```bash
 curl -LO https://github.com/edwardedmonds/sift-releases/releases/latest/download/sift-darwin-x86_64
 chmod +x sift-darwin-x86_64
 sudo mv sift-darwin-x86_64 /usr/local/bin/sift
 ```
 
-## Claude Code Integration
-
-Add sift as an MCP server to Claude Code:
+### 2. Add to Claude Code
 
 ```bash
 claude mcp add sift -- sift --mcp
 ```
 
-This enables Claude Code to use sift's powerful tools:
-- `sift_search` - FTS5 full-text search (30-195x faster than grep)
-- `sift_read` - Read files with line numbers
-- `sift_edit` - Find/replace with fuzzy whitespace matching
-- `sift_memory_*` - Persistent agent memory across sessions
+### 3. Test It
+
+Start Claude Code and ask:
+
+> "Search for TODO comments in this codebase"
+
+Claude will use `sift_search` to find matches 30-195x faster than grep.
+
+## Tools
+
+| Tool | Description |
+|------|-------------|
+| `sift_search` | FTS5 full-text search with boolean queries (AND, OR, NOT, NEAR) |
+| `sift_read` | Read files with line numbers for accurate editing |
+| `sift_edit` | Find/replace with fuzzy whitespace matching |
+| `sift_write` | Create or overwrite files |
+| `sift_memory_*` | Persistent agent memory across sessions |
 
 ## Features
 
-- **FTS5 Full-Text Search**: Boolean queries (AND, OR, NOT, NEAR), 30-195x faster than grep
-- **SQL Text Processing**: Transform text with regex_replace, csv_field, base64 functions
-- **Workspace Indexing**: Persistent file index with incremental updates
-- **MCP Server**: Model Context Protocol support for AI agent integration
-- **Agent Memory**: Persistent queryable memory for AI workflows
-
-## Quick Start
-
-```bash
-# Search indexed workspace
-sift --quarry "malloc AND free" --files "*.c"
-
-# SQL text transformation
-echo "hello world" | sift --for "SELECT upper(content) FROM lines"
-
-# MCP server mode (for AI agents)
-sift --mcp
-```
+- **Fast Search**: FTS5 indexing makes searches 30-195x faster than grep
+- **Smart Editing**: Fuzzy whitespace matching prevents edit failures from tab/space differences
+- **Agent Memory**: Plans, decisions, and patterns persist across Claude Code sessions
+- **Web Crawling**: Index documentation sites for offline querying
 
 ## Verify Download
 
