@@ -114,7 +114,7 @@ What do you know about my preferences?
 
 ### Memory
 
-[sift_memory_add](#sift_memory_add) · [sift_memory_search](#sift_memory_search) · [sift_memory_list](#sift_memory_list) · [sift_memory_update](#sift_memory_update) · [sift_memory_delete](#sift_memory_delete) · [sift_memory_decide](#sift_memory_decide) · [sift_memory_decisions](#sift_memory_decisions) · [sift_memory_reflect](#sift_memory_reflect) · [sift_memory_reflections](#sift_memory_reflections) · [sift_memory_link](#sift_memory_link) · [sift_memory_deps](#sift_memory_deps) · [sift_memory_ready](#sift_memory_ready) · [sift_memory_stale](#sift_memory_stale) · [sift_memory_stats](#sift_memory_stats) · [sift_memory_config](#sift_memory_config) · [sift_memory_tune](#sift_memory_tune) · [sift_memory_backups](#sift_memory_backups) · [sift_memory_restore](#sift_memory_restore) · [sift_memory_import](#sift_memory_import)
+[sift_memory_add](#sift_memory_add) · [sift_memory_search](#sift_memory_search) · [sift_memory_list](#sift_memory_list) · [sift_memory_update](#sift_memory_update) · [sift_memory_delete](#sift_memory_delete) · [sift_memory_decide](#sift_memory_decide) · [sift_memory_decisions](#sift_memory_decisions) · [sift_memory_supersede](#sift_memory_supersede) · [sift_memory_reflect](#sift_memory_reflect) · [sift_memory_reflections](#sift_memory_reflections) · [sift_memory_reflect_trajectory](#sift_memory_reflect_trajectory) · [sift_memory_trajectory_reflections](#sift_memory_trajectory_reflections) · [sift_memory_link](#sift_memory_link) · [sift_memory_deps](#sift_memory_deps) · [sift_memory_ready](#sift_memory_ready) · [sift_memory_stale](#sift_memory_stale) · [sift_memory_stats](#sift_memory_stats) · [sift_memory_context](#sift_memory_context) · [sift_memory_traverse](#sift_memory_traverse) · [sift_memory_origin](#sift_memory_origin) · [sift_memory_network](#sift_memory_network) · [sift_memory_config](#sift_memory_config) · [sift_memory_tune](#sift_memory_tune) · [sift_memory_backups](#sift_memory_backups) · [sift_memory_restore](#sift_memory_restore) · [sift_memory_import](#sift_memory_import)
 
 ### Search & Edit
 
@@ -213,6 +213,14 @@ What decisions have we made about the database?
 ```
 
 ---
+<a name="sift_memory_supersede"></a>
+### sift_memory_supersede
+Replace a previous decision.
+Updates a decision with a new one while keeping history. The old decision is marked as superseded, creating an audit trail of how thinking evolved.
+```
+Actually, let's use Redis instead of PostgreSQL for the session store
+```
+---
 
 <a name="sift_memory_reflect"></a>
 ### sift_memory_reflect
@@ -236,6 +244,22 @@ Query Claude's logged reflections to understand past reasoning or find patterns 
 What corrections have you had to make in this project?
 ```
 
+---
+<a name="sift_memory_reflect_trajectory"></a>
+### sift_memory_reflect_trajectory
+Reflect on a chain of memories.
+Records insights about how work evolved over time—patterns across chains, arc summaries, pivot points, or friction analyses. Types: `trajectory_pattern`, `arc_summary`, `pivot_point`, `friction_analysis`.
+```
+Looking back at the authentication work, we pivoted from JWT to sessions mid-way through
+```
+---
+<a name="sift_memory_trajectory_reflections"></a>
+### sift_memory_trajectory_reflections
+Query trajectory reflections.
+Search through trajectory reflections to find patterns in how work evolved. Filter by reflection type or chain segment length.
+```
+What trajectory patterns have you noticed in this project?
+```
 ---
 
 <a name="sift_memory_link"></a>
@@ -296,6 +320,38 @@ Shows counts by type and status, active patterns, recent corrections, and databa
 Give me an overview of what you remember about this project
 ```
 
+---
+<a name="sift_memory_context"></a>
+### sift_memory_context
+Generate rich session context.
+Traverses the memory chain to build context: journey (origin, milestones), themes, and active work. Call at session start to understand shared history.
+```
+What's the context of our work together?
+```
+---
+<a name="sift_memory_traverse"></a>
+### sift_memory_traverse
+Walk the memory chain.
+Follows links backwards through memory history, showing how experiences connect. Returns the path with each memory and link type.
+```
+Show me how we got to this point in the project
+```
+---
+<a name="sift_memory_origin"></a>
+### sift_memory_origin
+Find the start of a memory chain.
+Traverses backwards to find the first memory in a chain. Returns the origin memory and chain length.
+```
+Where did this line of work begin?
+```
+---
+<a name="sift_memory_network"></a>
+### sift_memory_network
+Explore memory graph structure.
+Analyzes memory connections as a network. Four modes: `hubs` (most connected), `neighbors` (direct connections), `cluster` (related memories), `bridges` (connecting separate areas).
+```
+What are the central themes in your memory?
+```
 ---
 
 <a name="sift_memory_config"></a>
