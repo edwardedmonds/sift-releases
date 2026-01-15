@@ -50,9 +50,18 @@ sudo mv sift-darwin-x86_64 /usr/local/bin/sift
 
 ### 2. Add to Claude Code
 
+Add sift globally (recommended):
 ```bash
-claude mcp add sift -- sift --mcp
+claude mcp add --scope user sift -- sift --mcp
 ```
+
+Or add to a specific project only:
+```bash
+cd your-project
+claude mcp add --scope project sift -- sift --mcp
+```
+
+**Note:** Sift automatically creates a separate `.sift/` database in each project directory, so your memories and search indexes are always project-specific even when sift is installed globally.
 
 ### 3. Try It Out
 
