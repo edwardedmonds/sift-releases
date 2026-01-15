@@ -42,8 +42,8 @@ Sift doesn't make Claude incapable of mistakes, but it provides a way to verify.
 The machine-readable nature of these tools creates accountability.
 ## See It In Action
 These documents were written by Claude using Sift's memory system:
-- **[The History of Sift](https://github.com/edwardedmonds/sift/blob/main/docs/history-of-sift.md)** — Claude traces how the project evolved, drawing on 85 connected memories to reconstruct the narrative from origin to present.
-- **[Memory Architecture Demo](https://github.com/edwardedmonds/sift/blob/main/docs/memory-architecture-demo.md)** — An analysis of which memory subsystems (chain traversal, network analysis, search, decisions, reflections) contributed to writing the history document.
+- **[The History of Sift](docs/history-of-sift.md)** — Claude traces how the project evolved, drawing on 85 connected memories to reconstruct the narrative from origin to present.
+- **[Memory Architecture Demo](docs/memory-architecture-demo.md)** — An analysis of which memory subsystems (chain traversal, network analysis, search, decisions, reflections) contributed to writing the history document.
 The history document demonstrates both thinking modes working together: linear chain traversal for chronological narrative, and network analysis for associative insights like identifying which memories are central hubs.
 
 ## Installation
