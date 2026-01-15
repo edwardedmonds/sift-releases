@@ -47,14 +47,14 @@ The machine-readable nature of these tools creates accountability.
 
 Interactive installers that prompt for each step:
 
-**Using Bash (requires jq for hooks):**
-```bash
-bash <(curl -fsSL https://github.com/edwardedmonds/sift-releases/releases/latest/download/sift-setup.sh)
-```
-
 **Using Python (no dependencies):**
 ```bash
 curl -fsSL https://github.com/edwardedmonds/sift-releases/releases/latest/download/sift-setup.py -o /tmp/sift-setup.py && python3 /tmp/sift-setup.py
+```
+
+**Using Bash (requires jq for hooks):**
+```bash
+curl -fsSL https://github.com/edwardedmonds/sift-releases/releases/latest/download/sift-setup.sh -o /tmp/sift-setup.sh && bash /tmp/sift-setup.sh
 ```
 
 The installer will prompt before each step:
