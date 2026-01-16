@@ -177,6 +177,35 @@ def main():
         
         if not shutil.which("sift"):
             print(f"  Note: Add {install_dir} to your PATH")
+        
+        # Install templates
+        template_dir = Path.home() / ".local" / "share" / "sift" / "templates"
+        template_dir.mkdir(parents=True, exist_ok=True)
+        print("  Downloading templates...")
+        try:
+            download_file(f"{RELEASE_URL}/CLAUDE.md", template_dir / "CLAUDE.md")
+            download_file(f"{RELEASE_URL}/MEMORY.md", template_dir / "MEMORY.md")
+            download_file(f"{RELEASE_URL}/FILE_TOOLS.md", template_dir / "FILE_TOOLS.md")
+            download_file(f"{RELEASE_URL}/SEARCH_TOOLS.md", template_dir / "SEARCH_TOOLS.md")
+            download_file(f"{RELEASE_URL}/WEB_TOOLS.md", template_dir / "WEB_TOOLS.md")
+            download_file(f"{RELEASE_URL}/REPO_TOOLS.md", template_dir / "REPO_TOOLS.md")
+            download_file(f"{RELEASE_URL}/SQL_TOOLS.md", template_dir / "SQL_TOOLS.md")
+            print("  ✓ Installed templates")
+        except Exception:
+            print("  ⚠ Could not download templates (will use embedded fallback)")
+        
+        # Migrate old sift.db to memory.db if needed
+        old_db = Path(".sift/sift.db")
+        new_db = Path(".sift/memory.db")
+        if old_db.exists() and not new_db.exists():
+            old_db.rename(new_db)
+            print("  ✓ Migrated .sift/sift.db -> .sift/memory.db")
+        
+        # Seed memory database with tool documentation
+        try:
+            subprocess.run([str(dest), "--seed-tools"], capture_output=True, check=False)
+        except Exception:
+            pass
     print()
     
     # Step 2: Add to Claude Code
@@ -280,6 +309,40 @@ def main():
         print("  ✓ TodoWrite disabled")
     else:
         print("  Skipped.")
+    print()
+    
+    # Step 5: Add memory system directive to user CLAUDE.md
+    print("Step 5: Add memory system directive")
+    print("------------------------------------")
+    print("  Adds instructions to ~/.claude/CLAUDE.md for proactive memory use")
+    print()
+    
+    user_claude_md = CLAUDE_DIR / "CLAUDE.md"
+    template_claude_md = template_dir / "CLAUDE.md"
+    marker = "## System Directive: Memory System"
+    
+    # Check if already present
+    already_present = False
+    if user_claude_md.exists():
+        content = user_claude_md.read_text()
+        already_present = marker in content
+    
+    if already_present:
+        print("  Sift directives already present. Skipping.")
+    elif template_claude_md.exists():
+        if prompt("  Add sift directives to ~/.claude/CLAUDE.md?"):
+            CLAUDE_DIR.mkdir(parents=True, exist_ok=True)
+            template_content = template_claude_md.read_text()
+            if user_claude_md.exists():
+                with open(user_claude_md, 'a') as f:
+                    f.write("\n\n" + template_content)
+            else:
+                user_claude_md.write_text(template_content)
+            print("  ✓ Added sift directives")
+        else:
+            print("  Skipped.")
+    else:
+        print("  ⚠ Template not found. Skipping CLAUDE.md setup.")
     print()
     
     print("Done! Restart Claude Code to apply changes.")
