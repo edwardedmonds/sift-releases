@@ -110,11 +110,35 @@ if [[ "$DO_INSTALL" == "1" ]]; then
     curl -fsSL "$RELEASE_URL/$BINARY" -o "/tmp/$BINARY"
     chmod +x "/tmp/$BINARY"
     mv "/tmp/$BINARY" "$DEST"
-    echo "  ✓ Installed successfully"
+    echo "  ✓ Installed binary"
     "$DEST" --version 2>/dev/null | grep -E "Version|version" | sed 's/^/    /' || true
+    
+    # Install templates
+    TEMPLATE_DIR="$HOME/.local/share/sift/templates"
+    mkdir -p "$TEMPLATE_DIR"
+    echo "  Downloading templates..."
+    curl -fsSL "$RELEASE_URL/CLAUDE.md" -o "$TEMPLATE_DIR/CLAUDE.md" 2>/dev/null || true
+    curl -fsSL "$RELEASE_URL/MEMORY.md" -o "$TEMPLATE_DIR/MEMORY.md" 2>/dev/null || true
+    curl -fsSL "$RELEASE_URL/FILE_TOOLS.md" -o "$TEMPLATE_DIR/FILE_TOOLS.md" 2>/dev/null || true
+    curl -fsSL "$RELEASE_URL/SEARCH_TOOLS.md" -o "$TEMPLATE_DIR/SEARCH_TOOLS.md" 2>/dev/null || true
+    curl -fsSL "$RELEASE_URL/WEB_TOOLS.md" -o "$TEMPLATE_DIR/WEB_TOOLS.md" 2>/dev/null || true
+    curl -fsSL "$RELEASE_URL/REPO_TOOLS.md" -o "$TEMPLATE_DIR/REPO_TOOLS.md" 2>/dev/null || true
+    curl -fsSL "$RELEASE_URL/SQL_TOOLS.md" -o "$TEMPLATE_DIR/SQL_TOOLS.md" 2>/dev/null || true
+    echo "  ✓ Installed templates"
     
     if ! command -v sift &> /dev/null; then
         echo "  Note: Add $INSTALL_DIR to your PATH"
+    fi
+    
+    # Migrate old sift.db to memory.db if needed
+    if [[ -f ".sift/sift.db" ]] && [[ ! -f ".sift/memory.db" ]]; then
+        mv .sift/sift.db .sift/memory.db
+        echo "  ✓ Migrated .sift/sift.db -> .sift/memory.db"
+    fi
+    
+    # Seed memory database with tool documentation
+    if command -v sift &> /dev/null || [[ -f "$DEST" ]]; then
+        "$DEST" --seed-tools 2>/dev/null || true
     fi
 fi
 echo
@@ -247,6 +271,38 @@ elif prompt "  Disable TodoWrite?"; then
     echo "  ✓ TodoWrite disabled"
 else
     echo "  Skipped."
+fi
+echo
+
+# Step 5: Add memory system directive to user CLAUDE.md
+echo "Step 5: Add memory system directive"
+echo "------------------------------------"
+echo "  Adds instructions to ~/.claude/CLAUDE.md for proactive memory use"
+echo
+
+USER_CLAUDE_MD="$CLAUDE_DIR/CLAUDE.md"
+TEMPLATE_CLAUDE_MD="$TEMPLATE_DIR/CLAUDE.md"
+
+# Check marker to detect if already installed
+MARKER="## System Directive: Memory System"
+
+if [[ -f "$USER_CLAUDE_MD" ]] && grep -q "$MARKER" "$USER_CLAUDE_MD"; then
+    echo "  Memory directive already present. Skipping."
+elif [[ -f "$TEMPLATE_CLAUDE_MD" ]]; then
+    if prompt "  Add sift directives to ~/.claude/CLAUDE.md?"; then
+        mkdir -p "$CLAUDE_DIR"
+        if [[ -f "$USER_CLAUDE_MD" ]]; then
+            echo "" >> "$USER_CLAUDE_MD"
+            cat "$TEMPLATE_CLAUDE_MD" >> "$USER_CLAUDE_MD"
+        else
+            cp "$TEMPLATE_CLAUDE_MD" "$USER_CLAUDE_MD"
+        fi
+        echo "  ✓ Added sift directives"
+    else
+        echo "  Skipped."
+    fi
+else
+    echo "  ⚠ Template not found. Skipping CLAUDE.md setup."
 fi
 echo
 
