@@ -316,7 +316,8 @@ def main():
     print("------------------------------------")
     print("  Adds instructions to ~/.claude/CLAUDE.md for proactive memory use")
     print()
-    
+
+    template_dir = Path.home() / ".local" / "share" / "sift" / "templates"
     user_claude_md = CLAUDE_DIR / "CLAUDE.md"
     template_claude_md = template_dir / "CLAUDE.md"
     marker = "## System Directive: Memory System"
