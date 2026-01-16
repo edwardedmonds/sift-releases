@@ -122,7 +122,7 @@ What do you know about my preferences?
 
 ### Memory
 
-[sift_memory_add](#sift_memory_add) · [sift_memory_search](#sift_memory_search) · [sift_memory_list](#sift_memory_list) · [sift_memory_update](#sift_memory_update) · [sift_memory_delete](#sift_memory_delete) · [sift_memory_decide](#sift_memory_decide) · [sift_memory_decisions](#sift_memory_decisions) · [sift_memory_supersede](#sift_memory_supersede) · [sift_memory_reflect](#sift_memory_reflect) · [sift_memory_reflections](#sift_memory_reflections) · [sift_memory_reflect_trajectory](#sift_memory_reflect_trajectory) · [sift_memory_trajectory_reflections](#sift_memory_trajectory_reflections) · [sift_memory_link](#sift_memory_link) · [sift_memory_deps](#sift_memory_deps) · [sift_memory_ready](#sift_memory_ready) · [sift_memory_stale](#sift_memory_stale) · [sift_memory_stats](#sift_memory_stats) · [sift_memory_context](#sift_memory_context) · [sift_memory_traverse](#sift_memory_traverse) · [sift_memory_origin](#sift_memory_origin) · [sift_memory_network](#sift_memory_network) · [sift_memory_config](#sift_memory_config) · [sift_memory_tune](#sift_memory_tune) · [sift_memory_backups](#sift_memory_backups) · [sift_memory_restore](#sift_memory_restore) · [sift_memory_import](#sift_memory_import)
+[sift_memory_add](#sift_memory_add) · [sift_memory_get](#sift_memory_get) · [sift_memory_search](#sift_memory_search) · [sift_memory_list](#sift_memory_list) · [sift_memory_update](#sift_memory_update) · [sift_memory_delete](#sift_memory_delete) · [sift_memory_decide](#sift_memory_decide) · [sift_memory_decisions](#sift_memory_decisions) · [sift_memory_supersede](#sift_memory_supersede) · [sift_memory_reflect](#sift_memory_reflect) · [sift_memory_reflections](#sift_memory_reflections) · [sift_memory_reflect_trajectory](#sift_memory_reflect_trajectory) · [sift_memory_trajectory_reflections](#sift_memory_trajectory_reflections) · [sift_memory_link](#sift_memory_link) · [sift_memory_unlink](#sift_memory_unlink) · [sift_memory_deps](#sift_memory_deps) · [sift_memory_ready](#sift_memory_ready) · [sift_memory_stale](#sift_memory_stale) · [sift_memory_stats](#sift_memory_stats) · [sift_memory_context](#sift_memory_context) · [sift_memory_traverse](#sift_memory_traverse) · [sift_memory_origin](#sift_memory_origin) · [sift_memory_network](#sift_memory_network) · [sift_memory_config](#sift_memory_config) · [sift_memory_tune](#sift_memory_tune) · [sift_memory_backups](#sift_memory_backups) · [sift_memory_restore](#sift_memory_restore) · [sift_memory_import](#sift_memory_import)
 
 ### Search & Edit
 
@@ -130,7 +130,7 @@ What do you know about my preferences?
 
 ### Web & Repository
 
-[sift_web_crawl](#sift_web_crawl) · [sift_web_search](#sift_web_search) · [sift_web_query](#sift_web_query) · [sift_web_stats](#sift_web_stats) · [sift_web_refresh](#sift_web_refresh) · [sift_repo_clone](#sift_repo_clone) · [sift_repo_search](#sift_repo_search) · [sift_repo_query](#sift_repo_query)
+[sift_web_crawl](#sift_web_crawl) · [sift_web_search](#sift_web_search) · [sift_web_query](#sift_web_query) · [sift_web_stats](#sift_web_stats) · [sift_web_manifest](#sift_web_manifest) · [sift_web_refresh](#sift_web_refresh) · [sift_web_search_multi](#sift_web_search_multi) · [sift_web_merge](#sift_web_merge) · [sift_repo_clone](#sift_repo_clone) · [sift_repo_search](#sift_repo_search) · [sift_repo_query](#sift_repo_query) · [sift_repo_stats](#sift_repo_stats) · [sift_repo_list](#sift_repo_list)
 
 ---
 
@@ -146,6 +146,18 @@ Creates a new memory entry that persists across sessions. Memories are automatic
 
 ```
 Remember that in this project we use snake_case for Python and camelCase for JavaScript
+```
+
+---
+
+<a name="sift_memory_get"></a>
+### sift_memory_get
+Get a memory by ID.
+
+Returns full details of a specific memory including metadata, timestamps, and access count.
+
+```
+Show me the details of that authentication pattern you mentioned
 ```
 
 ---
@@ -278,6 +290,18 @@ Establishes relationships between memories: `blocks` (task A blocks task B), `re
 
 ```
 The database migration needs to be done before we can deploy the new API
+```
+
+---
+
+<a name="sift_memory_unlink"></a>
+### sift_memory_unlink
+Remove a dependency link.
+
+Removes a previously created relationship between two memories.
+
+```
+The migration is done, so it's no longer blocking deployment
 ```
 
 ---
@@ -594,6 +618,42 @@ Update any cached documentation pages older than a week
 
 ---
 
+<a name="sift_web_manifest"></a>
+### sift_web_manifest
+Detailed metadata about cached sources.
+
+Shows per-domain page counts, word counts, crawl dates, and freshness statistics for a web database.
+
+```
+What documentation sources do you have cached and when were they last updated?
+```
+
+---
+
+<a name="sift_web_search_multi"></a>
+### sift_web_search_multi
+Search across multiple cached databases.
+
+Searches multiple web databases simultaneously and merges results by relevance. Useful when documentation is split across multiple crawled sites.
+
+```
+Search all cached docs for information about rate limiting
+```
+
+---
+
+<a name="sift_web_merge"></a>
+### sift_web_merge
+Merge multiple doc caches into one.
+
+Combines multiple web databases into a single unified database. Deduplicates by content hash and keeps the most recent version of duplicate URLs.
+
+```
+Combine the React and TypeScript doc caches into a single database
+```
+
+---
+
 <a name="sift_repo_clone"></a>
 ### sift_repo_clone
 Clone and index a git repository.
@@ -626,6 +686,30 @@ Run SQL queries on indexed repository files. Query by language, line count, file
 
 ```
 Find the largest files in the indexed repository
+```
+
+---
+
+<a name="sift_repo_stats"></a>
+### sift_repo_stats
+Get repository statistics.
+
+Shows file count, line count, language breakdown, and clone metadata for an indexed repository.
+
+```
+How big is the indexed lodash repository?
+```
+
+---
+
+<a name="sift_repo_list"></a>
+### sift_repo_list
+List indexed repository databases.
+
+Shows all repository databases in the current directory.
+
+```
+What repositories have you indexed?
 ```
 
 ---
