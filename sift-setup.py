@@ -179,14 +179,14 @@ def main():
             print(f"  Note: Add {install_dir} to your PATH")
     print()
 
-    # Install templates (always, regardless of binary install)
+    # Install templates to ~/.claude/
     print("Step 1b: Install documentation templates")
     print("----------------------------------------")
-    template_dir = Path.home() / ".local" / "share" / "sift" / "templates"
-    template_dir.mkdir(parents=True, exist_ok=True)
+    claude_dir = Path.home() / ".claude"
+    claude_dir.mkdir(parents=True, exist_ok=True)
 
     # Check if templates already exist
-    templates_exist = (template_dir / "CLAUDE.md").exists()
+    templates_exist = (claude_dir / "CLAUDE.md").exists()
     if templates_exist:
         if prompt("  Templates already installed. Reinstall?", default="n"):
             templates_exist = False
@@ -194,15 +194,15 @@ def main():
             print("  Skipped.")
 
     if not templates_exist:
-        print("  Downloading templates...")
+        print(f"  Downloading templates to {claude_dir}/...")
         try:
-            download_file(f"{RELEASE_URL}/CLAUDE.md", template_dir / "CLAUDE.md")
-            download_file(f"{RELEASE_URL}/MEMORY.md", template_dir / "MEMORY.md")
-            download_file(f"{RELEASE_URL}/FILE_TOOLS.md", template_dir / "FILE_TOOLS.md")
-            download_file(f"{RELEASE_URL}/SEARCH_TOOLS.md", template_dir / "SEARCH_TOOLS.md")
-            download_file(f"{RELEASE_URL}/WEB_TOOLS.md", template_dir / "WEB_TOOLS.md")
-            download_file(f"{RELEASE_URL}/REPO_TOOLS.md", template_dir / "REPO_TOOLS.md")
-            download_file(f"{RELEASE_URL}/SQL_TOOLS.md", template_dir / "SQL_TOOLS.md")
+            download_file(f"{RELEASE_URL}/CLAUDE.md", claude_dir / "CLAUDE.md")
+            download_file(f"{RELEASE_URL}/MEMORY.md", claude_dir / "MEMORY.md")
+            download_file(f"{RELEASE_URL}/FILE_TOOLS.md", claude_dir / "FILE_TOOLS.md")
+            download_file(f"{RELEASE_URL}/SEARCH_TOOLS.md", claude_dir / "SEARCH_TOOLS.md")
+            download_file(f"{RELEASE_URL}/WEB_TOOLS.md", claude_dir / "WEB_TOOLS.md")
+            download_file(f"{RELEASE_URL}/REPO_TOOLS.md", claude_dir / "REPO_TOOLS.md")
+            download_file(f"{RELEASE_URL}/SQL_TOOLS.md", claude_dir / "SQL_TOOLS.md")
             print("  ✓ Installed templates")
         except Exception:
             print("  ⚠ Could not download templates")
@@ -317,41 +317,6 @@ def main():
         print("  ✓ TodoWrite disabled")
     else:
         print("  Skipped.")
-    print()
-    
-    # Step 5: Add memory system directive to user CLAUDE.md
-    print("Step 5: Add memory system directive")
-    print("------------------------------------")
-    print("  Adds instructions to ~/.claude/CLAUDE.md for proactive memory use")
-    print()
-
-    template_dir = Path.home() / ".local" / "share" / "sift" / "templates"
-    user_claude_md = CLAUDE_DIR / "CLAUDE.md"
-    template_claude_md = template_dir / "CLAUDE.md"
-    marker = "## System Directive: Memory System"
-    
-    # Check if already present
-    already_present = False
-    if user_claude_md.exists():
-        content = user_claude_md.read_text()
-        already_present = marker in content
-    
-    if already_present:
-        print("  Sift directives already present. Skipping.")
-    elif template_claude_md.exists():
-        if prompt("  Add sift directives to ~/.claude/CLAUDE.md?"):
-            CLAUDE_DIR.mkdir(parents=True, exist_ok=True)
-            template_content = template_claude_md.read_text()
-            if user_claude_md.exists():
-                with open(user_claude_md, 'a') as f:
-                    f.write("\n\n" + template_content)
-            else:
-                user_claude_md.write_text(template_content)
-            print("  ✓ Added sift directives")
-        else:
-            print("  Skipped.")
-    else:
-        print("  ⚠ Template not found. Skipping CLAUDE.md setup.")
     print()
     
     print("Done! Restart Claude Code to apply changes.")

@@ -119,13 +119,13 @@ if [[ "$DO_INSTALL" == "1" ]]; then
 fi
 echo
 
-# Step 1b: Install templates (always, regardless of binary install)
+# Step 1b: Install templates to ~/.claude/
 echo "Step 1b: Install documentation templates"
 echo "----------------------------------------"
-TEMPLATE_DIR="$HOME/.local/share/sift/templates"
-mkdir -p "$TEMPLATE_DIR"
+CLAUDE_DIR="$HOME/.claude"
+mkdir -p "$CLAUDE_DIR"
 
-if [[ -f "$TEMPLATE_DIR/CLAUDE.md" ]]; then
+if [[ -f "$CLAUDE_DIR/CLAUDE.md" ]]; then
     echo "  Templates already installed."
     if prompt "  Reinstall?" "n"; then
         DO_TEMPLATES=1
@@ -138,14 +138,14 @@ else
 fi
 
 if [[ "$DO_TEMPLATES" == "1" ]]; then
-    echo "  Downloading templates..."
-    curl -fsSL "$RELEASE_URL/CLAUDE.md" -o "$TEMPLATE_DIR/CLAUDE.md" 2>/dev/null || true
-    curl -fsSL "$RELEASE_URL/MEMORY.md" -o "$TEMPLATE_DIR/MEMORY.md" 2>/dev/null || true
-    curl -fsSL "$RELEASE_URL/FILE_TOOLS.md" -o "$TEMPLATE_DIR/FILE_TOOLS.md" 2>/dev/null || true
-    curl -fsSL "$RELEASE_URL/SEARCH_TOOLS.md" -o "$TEMPLATE_DIR/SEARCH_TOOLS.md" 2>/dev/null || true
-    curl -fsSL "$RELEASE_URL/WEB_TOOLS.md" -o "$TEMPLATE_DIR/WEB_TOOLS.md" 2>/dev/null || true
-    curl -fsSL "$RELEASE_URL/REPO_TOOLS.md" -o "$TEMPLATE_DIR/REPO_TOOLS.md" 2>/dev/null || true
-    curl -fsSL "$RELEASE_URL/SQL_TOOLS.md" -o "$TEMPLATE_DIR/SQL_TOOLS.md" 2>/dev/null || true
+    echo "  Downloading templates to $CLAUDE_DIR/..."
+    curl -fsSL "$RELEASE_URL/CLAUDE.md" -o "$CLAUDE_DIR/CLAUDE.md" 2>/dev/null || true
+    curl -fsSL "$RELEASE_URL/MEMORY.md" -o "$CLAUDE_DIR/MEMORY.md" 2>/dev/null || true
+    curl -fsSL "$RELEASE_URL/FILE_TOOLS.md" -o "$CLAUDE_DIR/FILE_TOOLS.md" 2>/dev/null || true
+    curl -fsSL "$RELEASE_URL/SEARCH_TOOLS.md" -o "$CLAUDE_DIR/SEARCH_TOOLS.md" 2>/dev/null || true
+    curl -fsSL "$RELEASE_URL/WEB_TOOLS.md" -o "$CLAUDE_DIR/WEB_TOOLS.md" 2>/dev/null || true
+    curl -fsSL "$RELEASE_URL/REPO_TOOLS.md" -o "$CLAUDE_DIR/REPO_TOOLS.md" 2>/dev/null || true
+    curl -fsSL "$RELEASE_URL/SQL_TOOLS.md" -o "$CLAUDE_DIR/SQL_TOOLS.md" 2>/dev/null || true
     echo "  ✓ Installed templates"
 fi
 
@@ -284,38 +284,6 @@ elif prompt "  Disable TodoWrite?"; then
     echo "  ✓ TodoWrite disabled"
 else
     echo "  Skipped."
-fi
-echo
-
-# Step 5: Add memory system directive to user CLAUDE.md
-echo "Step 5: Add memory system directive"
-echo "------------------------------------"
-echo "  Adds instructions to ~/.claude/CLAUDE.md for proactive memory use"
-echo
-
-USER_CLAUDE_MD="$CLAUDE_DIR/CLAUDE.md"
-TEMPLATE_CLAUDE_MD="$TEMPLATE_DIR/CLAUDE.md"
-
-# Check marker to detect if already installed
-MARKER="## System Directive: Memory System"
-
-if [[ -f "$USER_CLAUDE_MD" ]] && grep -q "$MARKER" "$USER_CLAUDE_MD"; then
-    echo "  Memory directive already present. Skipping."
-elif [[ -f "$TEMPLATE_CLAUDE_MD" ]]; then
-    if prompt "  Add sift directives to ~/.claude/CLAUDE.md?"; then
-        mkdir -p "$CLAUDE_DIR"
-        if [[ -f "$USER_CLAUDE_MD" ]]; then
-            echo "" >> "$USER_CLAUDE_MD"
-            cat "$TEMPLATE_CLAUDE_MD" >> "$USER_CLAUDE_MD"
-        else
-            cp "$TEMPLATE_CLAUDE_MD" "$USER_CLAUDE_MD"
-        fi
-        echo "  ✓ Added sift directives"
-    else
-        echo "  Skipped."
-    fi
-else
-    echo "  ⚠ Template not found. Skipping CLAUDE.md setup."
 fi
 echo
 
