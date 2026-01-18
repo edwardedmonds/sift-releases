@@ -53,10 +53,10 @@ The history document demonstrates both thinking modes working together: linear c
 
 ### Quick Install (Recommended)
 
-Interactive installer that prompts for each step (requires jq for hooks):
+Interactive installer that prompts for each step:
 
 ```bash
-curl -fsSL https://github.com/edwardedmonds/sift-releases/releases/latest/download/sift-setup.sh | bash
+curl -fsSL https://github.com/edwardedmonds/sift-releases/releases/latest/download/sift-setup.py | python3
 ```
 
 The installer will prompt before each step:
@@ -64,12 +64,13 @@ The installer will prompt before each step:
 2. Install documentation templates to `~/.claude/`
 3. Register sift as MCP server with Claude Code
 4. Configure session hooks (context preservation, workspace indexing)
+5. Disable built-in TodoWrite (sift_memory is better)
 
 Existing hooks are preserved—the installer merges new hooks with existing configuration.
 
 To uninstall:
 ```bash
-~/.local/bin/sift-uninstall.sh
+python3 ~/.local/bin/sift-uninstall.py
 ```
 
 ### Manual Install
