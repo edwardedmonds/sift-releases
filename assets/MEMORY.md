@@ -1,7 +1,8 @@
-<!-- sift-template-0.9.2 -->
 # Memory System
 
-Persistent, queryable storage that maintains collaboration continuity across sessions. Context loss disorients the user - they have to re-explain, re-establish understanding. This system prevents that.
+Persistent, queryable storage that maintains collaboration continuity across sessions. 
+
+**A task isn't complete until context is preserved.** Context loss disorients the user - they have to re-explain, re-establish understanding. Preserving context isn't a separate step after "real work" - it's part of finishing properly.
 
 ---
 
@@ -21,7 +22,9 @@ IMMEDIATELY use `sift_memory_add` when the user shares:
 | A correction | `type: gotcha` | "Don't use deprecated API" |
 | A workflow they like | `type: pattern` | "Always run tests before commit" |
 
-**Save BEFORE responding. Don't ask permission.**
+**Save as part of completing the task. Don't treat it as separate.**
+
+**When uncertain, save anyway.** Relevance emerges through interaction - you can't know at save time what will matter later. The system's ranking naturally surfaces what proves useful. A quick save that might not matter is better than missing something that would have helped.
 
 ### Correction Handling (CRITICAL)
 
@@ -135,6 +138,7 @@ sift_memory_network(mode="hubs") → Find most-connected memories
 | `plan` | Multi-step work | open | Complex tasks |
 | `step` | Steps within a plan | open | Use with parent_id |
 | `task` | Single actionable items | open | Todo items |
+| `synthesis` | Consolidated knowledge | open | Created by `sift_memory_synthesize` |
 
 ### Status Meanings
 
@@ -145,8 +149,11 @@ sift_memory_network(mode="hubs") → Find most-connected memories
 | `done` | Completed |
 | `blocked` | Waiting on something |
 | `active` | **Always applies** (for patterns/preferences) |
+| `archived` | Intentionally set aside (preserved but hidden by default) |
 
 **Important:** `status='active'` means the memory is always relevant. Use for patterns and preferences.
+
+**Archive philosophy:** Nothing is deleted. `archived` memories are excluded from `sift_memory_list` by default but remain accessible via `sift_memory_get`, searchable, and all links stay intact.
 
 ### Chain Linking
 
@@ -190,13 +197,20 @@ The system detects query intent and boosts relevant types:
 | `sift_memory_add` | Create memory | type*, title*, description, parent_id, priority, status, metadata |
 | `sift_memory_get` | Get by ID | id* |
 | `sift_memory_update` | Modify memory | id*, title, description, status, priority, metadata |
-| `sift_memory_delete` | Remove memory | id* |
+| `sift_memory_archive` | Archive memory | id*, cascade (default: true) |
+
+### Synthesis Tools
+
+| Tool | Purpose | Key Parameters |
+|------|---------|----------------|
+| `sift_memory_synthesize` | Consolidate memories | sources* (array), title*, summary*, mark_sources |
+| `sift_memory_expand` | Show synthesis sources | id* (synthesis memory ID) |
 
 ### Query Tools
 
 | Tool | Purpose | Key Parameters |
 |------|---------|----------------|
-| `sift_memory_list` | List memories | type, status, parent_id, metadata, limit |
+| `sift_memory_list` | List memories | type, status, parent_id, metadata, limit, include_archived |
 | `sift_memory_search` | Full-text search | query*, type, limit, expand_synonyms |
 | `sift_memory_ready` | Tasks with no blockers | limit |
 | `sift_memory_stale` | Old memories | days, limit |
@@ -205,7 +219,7 @@ The system detects query intent and boosts relevant types:
 
 | Tool | Purpose | Key Parameters |
 |------|---------|----------------|
-| `sift_memory_link` | Create link | from_id*, to_id*, dep_type (blocks/related/follows) |
+| `sift_memory_link` | Create link | from_id*, to_id*, dep_type (blocks/related/follows/synthesizes) |
 | `sift_memory_unlink` | Remove link | from_id*, to_id* |
 | `sift_memory_deps` | Query dependencies | id*, direction (blockers/blocking) |
 
@@ -281,3 +295,9 @@ Keys: `weight_freq`, `weight_recency`, `weight_priority`, `weight_context`
 **Find patterns:** `sift_memory_list(type="pattern", status="active")`
 
 **Search memories:** `sift_memory_search(query="authentication")`
+
+**Archive memory:** `sift_memory_archive(id="mem-xxx")` (preserves links, excluded from list by default)
+
+**Synthesize:** `sift_memory_synthesize(sources=["mem-a","mem-b"], title="...", summary="...")`
+
+**Expand synthesis:** `sift_memory_expand(id="mem-synthesis-xxx")` (shows constituent sources)

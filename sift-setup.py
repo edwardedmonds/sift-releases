@@ -268,7 +268,7 @@ def main():
     has_sift_templates = False
     if claude_md.exists():
         content = claude_md.read_text()
-        has_sift_templates = "<!-- sift-template-" in content or "<!-- SIFT_BEGIN -->" in content
+        has_sift_templates = "<!-- begin sift-template-" in content or "<!-- SIFT_BEGIN -->" in content
     
     if has_sift_templates:
         print("  Templates already installed.")

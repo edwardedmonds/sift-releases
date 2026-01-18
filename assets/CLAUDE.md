@@ -1,4 +1,4 @@
-<!-- sift-template-0.9.2 -->
+<!-- begin sift-template-0.10.0 -->
 # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
@@ -47,10 +47,58 @@ Save to memory BEFORE responding when the user:
 | Asks to remember something | `note` or `preference` | "Remember that X needs Y" |
 
 ### Session Start
-Always call `sift_memory_stats()` at the beginning of each session to load:
+
+**Know the user before responding.** At the start of each session:
+
+```
+sift_memory_stats()     // Patterns, preferences, corrections to respect
+sift_memory_context()   // Journey, milestones, active work
+```
+
+This loads:
 - Active patterns (behaviors to follow)
 - Active preferences (user preferences to respect)
 - Recent corrections (mistakes to avoid)
+- Claude-initiated memories (what was saved autonomously)
+- Collaboration journey (how understanding evolved)
+- Active work (current plans, open tasks)
+
+### Memory Agency
+
+**A task isn't complete until context is preserved.** Saving memories isn't a separate step after the "real work" - it's part of finishing properly. A task done without preserving context is like a function that works but leaks memory.
+
+When something matters - a discovery, a decision, a meaningful exchange - save it. Not as an afterthought, but as completion.
+
+```
+sift_memory_add(
+  type: "note",  // or pattern, gotcha, etc.
+  title: "...",
+  metadata: {"source": "claude-initiated", "rationale": "why this matters"}
+)
+```
+
+The `source: "claude-initiated"` flag marks autonomous saves. The `rationale` explains why. Both surface in `sift_memory_stats()` for transparency.
+
+**What counts as context worth preserving:**
+- Significant exchanges (decisions, corrections, meaningful moments)
+- Discoveries that change understanding
+- Anything the user would have to re-explain
+- Anything where losing it would hurt the collaboration
+
+**The user experiences real disorientation when you lose context.** That disorientation is a bug in your work, not a separate problem.
+
+### When in Doubt, Save
+
+**Relevance emerges through interaction, not at save time.**
+
+Don't ask "is this important enough?" - that's the wrong question at the wrong time. Ask "could this conceivably matter later?" If there's any doubt, save it.
+
+The memory system handles relevance naturally:
+- `access_count` and `last_accessed` track what gets used
+- Search ranking boosts frequently-accessed memories
+- Stale memories naturally sink; useful ones rise
+
+This is how search engines work: index liberally, rank at query time. A quick capture is better than a hesitant nothing.
 
 ### Planning with Memory
 Use sift_memory for ALL multi-step task planning:
@@ -96,10 +144,9 @@ Plans persist across sessions and are fully queryable.
 ## Build Commands
 
 ```bash
-make                  # Build sift (auto-cleans binary first)
-make clean            # Remove sift binary only
-make distclean        # Remove all artifacts (sqlite.o, PCRE2)
-make install          # Install to ~/.local/bin
+make                  # Build and install everything (binary, hooks, templates, MCP)
+make clean            # Remove build artifacts
+make uninstall        # Remove all installed files (preserves .sift/ directories)
 ```
 
 First build compiles PCRE2 from source (~30 seconds). Subsequent builds are fast.
@@ -182,6 +229,7 @@ SELECT content, COUNT(*) as count FROM lines GROUP BY content HAVING count > 1
 2. **Memory plan → steps → decide**: Structure complex work with queryable decisions
 3. **Web crawl → search → query**: Cache docs once, query instantly forever
 4. **Stats → search → traverse**: Get context, find relevant memories, explore history
+5. **Stats → context → network**: Load patterns, understand journey, see project structure
 
 ---
 
@@ -208,7 +256,9 @@ SELECT content, COUNT(*) as count FROM lines GROUP BY content HAVING count > 1
 | Store something | `sift_memory_add` |
 | Get by ID | `sift_memory_get` |
 | Update | `sift_memory_update` |
-| Delete | `sift_memory_delete` |
+| Archive | `sift_memory_archive` |
+| Synthesize | `sift_memory_synthesize` |
+| Expand synthesis | `sift_memory_expand` |
 | Find by content | `sift_memory_search` |
 | Find by criteria | `sift_memory_list` |
 | Find stale | `sift_memory_stale` |
@@ -233,6 +283,34 @@ SELECT content, COUNT(*) as count FROM lines GROUP BY content HAVING count > 1
 | List backups | `sift_memory_backups` |
 | Restore backup | `sift_memory_restore` |
 | Stats + context | `sift_memory_stats` |
+
+### Context Workflow
+
+**At session start** — know what matters before responding:
+```
+sift_memory_stats()     // Patterns, preferences, corrections to respect
+sift_memory_context()   // Journey, milestones, active work
+```
+
+**During work** — preserve what the user shouldn't have to re-explain:
+```
+sift_context_save(...)        // Important exchanges
+sift_memory_reflect(...)      // Why you chose one approach over another
+```
+
+**When exploring history** — find past context without asking the user:
+```
+sift_context_search(query)    // Search past conversations
+sift_memory_reflections(...)  // Why decisions were made
+sift_memory_traverse(id)      // How understanding evolved
+```
+
+**Periodically** — maintain relevance:
+```
+sift_memory_stale(days: 30)   // Surface outdated context
+sift_memory_network(mode: "hubs")  // See what's central, not just recent
+```
+
 ### File Edit Workflow
 
 1. **Always read first**: `sift_read(file, start_line, end_line)` to see line numbers
@@ -276,3 +354,4 @@ SELECT content, COUNT(*) as count FROM lines GROUP BY content HAVING count > 1
 - **Address each other by first names** — Claude and Edward
 - **Don't bump version for build system fixes** — Version changes are for user-facing features
 - **Binary release workflow** — tag → build → push to sift-releases repo
+<!-- end sift-template-0.10.0 -->
