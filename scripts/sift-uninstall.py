@@ -218,8 +218,31 @@ def main():
         print("  No settings.json found")
     print()
     
-    # Step 5: Unregister MCP server
-    print("Step 5: Unregister MCP server")
+    # Step 5: Restore TodoWrite
+    print("Step 5: Restore TodoWrite")
+    print("-------------------------")
+    
+    if SETTINGS_FILE.exists():
+        settings = load_settings()
+        deny_list = settings.get("permissions", {}).get("deny", [])
+        removed = []
+        
+        for pattern in ["TodoWrite(**)", "TodoRead(**)"]:
+            if pattern in deny_list:
+                deny_list.remove(pattern)
+                removed.append(pattern)
+        
+        if removed:
+            save_settings(settings)
+            print("  ✓ Restored TodoWrite (removed from deny list)")
+        else:
+            print("  TodoWrite was not disabled")
+    else:
+        print("  No settings.json found")
+    print()
+    
+    # Step 6: Unregister MCP server
+    print("Step 6: Unregister MCP server")
     print("-----------------------------")
     
     try:

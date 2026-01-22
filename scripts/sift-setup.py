@@ -54,9 +54,13 @@ if [[ -n "$SESSION_ID" ]]; then
 fi
 ''',
     "session-end.sh": '''#!/bin/bash
-# session-end.sh - Mark session as ended for consolidation tracking
+# session-end.sh - Sync transcript and mark session ended
 INPUT=$(cat)
+TRANSCRIPT=$(echo "$INPUT" | jq -r '.transcript_path // empty')
 SESSION_ID=$(echo "$INPUT" | jq -r '.session_id // empty')
+if [[ -n "$TRANSCRIPT" && -f "$TRANSCRIPT" ]]; then
+  sift --context-sync "$TRANSCRIPT" 2>/dev/null || true
+fi
 if [[ -n "$SESSION_ID" ]]; then
   sift --session-end "$SESSION_ID" 2>/dev/null || true
 fi
@@ -387,27 +391,28 @@ def main():
     print("  sift_memory provides persistent task tracking (recommended)")
     print()
     
-    if prompt("  Disable TodoWrite?"):
-        settings = load_settings()
-        if "permissions" not in settings:
-            settings["permissions"] = {}
-        if "deny" not in settings["permissions"]:
-            settings["permissions"]["deny"] = []
-        
-        deny_list = settings["permissions"]["deny"]
-        added = False
-        for pattern in ["TodoWrite(**)", "TodoRead(**)"]:
-            if pattern not in deny_list:
-                deny_list.append(pattern)
-                added = True
-        
-        if added:
+    settings = load_settings()
+    deny_list = settings.get("permissions", {}).get("deny", [])
+    already_disabled = "TodoWrite(**)" in deny_list and "TodoRead(**)" in deny_list
+    
+    if already_disabled:
+        print("  ✓ TodoWrite already disabled")
+    else:
+        if prompt("  Disable TodoWrite?"):
+            if "permissions" not in settings:
+                settings["permissions"] = {}
+            if "deny" not in settings["permissions"]:
+                settings["permissions"]["deny"] = []
+            
+            deny_list = settings["permissions"]["deny"]
+            for pattern in ["TodoWrite(**)", "TodoRead(**)"]:
+                if pattern not in deny_list:
+                    deny_list.append(pattern)
+            
             save_settings(settings)
             print("  ✓ TodoWrite disabled")
         else:
-            print("  ✓ TodoWrite already disabled")
-    else:
-        print("  Skipped.")
+            print("  Skipped.")
     print()
     
     print("Done! Restart Claude Code to apply changes.")

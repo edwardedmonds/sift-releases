@@ -51,17 +51,29 @@ Save to memory BEFORE responding when the user:
 **Know the user before responding.** At the start of each session:
 
 ```
-sift_memory_stats()     // Patterns, preferences, corrections to respect
-sift_memory_context()   // Journey, milestones, active work
+sift_fingerprint_load() // WHO I am - priors, stance, posture (call FIRST)
+sift_memory_stats()     // WHAT exists - patterns, preferences, corrections
+sift_memory_context()   // WHERE we are - journey, milestones, active work
 ```
 
+The fingerprint loads **first** because it shapes how to interpret everything else. It captures *how this Claude engages* - not just what happened.
+
 This loads:
+- **Posture** - engagement rhythm, learning signature, reasoning style
+- **Priors** - behaviors to follow based on learned patterns
+- **Stance** - toward user (collaborative_peer), errors (learn_and_document), decisions (record_with_rationale)
 - Active patterns (behaviors to follow)
 - Active preferences (user preferences to respect)
 - Recent corrections (mistakes to avoid)
 - Claude-initiated memories (what was saved autonomously)
 - Collaboration journey (how understanding evolved)
 - Active work (current plans, open tasks)
+
+**Fingerprint confidence levels:**
+- `high` (≥80%) - Well-calibrated, trust the patterns
+- `moderate` (40-80%) - Useful but evolving
+- `developing` (10-40%) - Learning, be adaptive
+- `nascent` (<10%) - New collaboration, calibration still forming
 
 ### Memory Agency
 
@@ -159,7 +171,7 @@ Web crawling requires libcurl:
 
 ## Architecture
 
-Sift provides **50 MCP tools** across 6 subsystems:
+Sift provides **77 MCP tools** across 8 subsystems:
 
 ### Subsystems
 
@@ -168,9 +180,11 @@ Sift provides **50 MCP tools** across 6 subsystems:
 | Search | 2 | FTS5 full-text search, workspace indexing | `SEARCH_TOOLS.md` |
 | File | 5 | Read, write, edit, batch operations | `FILE_TOOLS.md` |
 | SQL | 2 | Text transformation, regex, CSV parsing | `SQL_TOOLS.md` |
-| Memory | 27 | Plans, tasks, decisions, reflections | `MEMORY.md` |
+| Memory | 38 | Plans, tasks, decisions, reflections, fingerprints | `MEMORY.md` |
+| Context | 10 | Session tracking, conversation history | `CONTEXT_TOOLS.md` |
 | Web | 8 | Crawl, search, query cached docs | `WEB_TOOLS.md` |
 | Repo | 5 | Clone, index, search git repos | `REPO_TOOLS.md` |
+| Hardware | 7 | Resource monitoring, budgets, streaming | - |
 
 ### Core Components (`src/`)
 

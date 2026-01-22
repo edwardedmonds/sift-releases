@@ -83,12 +83,14 @@ Categories: `unexpected_result`, `missing_feature`, `confusing_behavior`, `perfo
 ### Session Start
 
 ```
-1. sift_memory_stats → loads active patterns, preferences, corrections
-2. Review what patterns say to do (follow them!)
-3. Check for stale memories that might be outdated
+1. sift_fingerprint_load → WHO I am (priors, stance, posture) - CALL FIRST
+2. sift_memory_stats    → WHAT exists (patterns, preferences, corrections)
+3. sift_memory_context  → WHERE we are (journey, milestones, active work)
 ```
 
-The SessionStart hook calls `sift --session-context` which does step 1 automatically.
+**The fingerprint loads first** because it shapes how to interpret everything else. It captures *how this Claude engages* - not just what happened.
+
+The SessionStart hook calls `sift --session-context` which does these steps automatically.
 
 ### Planning Workflow
 
@@ -261,6 +263,34 @@ Modes:
 - `neighbors`: Direct 1-hop connections
 - `cluster`: Densely connected to given memory (2-3 hops)
 - `bridges`: Memories connecting separate clusters
+
+### Fingerprint Tools
+
+| Tool | Purpose | Key Parameters |
+|------|---------|----------------|
+| `sift_fingerprint_load` | Load fingerprint for session start | fingerprint_id (optional, defaults to latest) |
+| `sift_fingerprint_generate` | Create new fingerprint | (none) |
+| `sift_fingerprint_compare` | Compare two fingerprints | id1*, id2* |
+| `sift_fingerprint_drift` | Detect session deviation | (none) |
+
+**Call `sift_fingerprint_load` FIRST at session start.** It returns:
+- **posture**: Human-readable descriptions of engagement patterns
+- **priors**: Behaviors to follow based on learned patterns  
+- **stance**: Toward user, errors, and decisions
+
+Six dimensions computed:
+1. **Engagement Rhythm** - save frequency, reflection rate, decision density
+2. **Learning Signature** - corrections, categories, learning velocity
+3. **Reasoning Style** - rationale patterns, tradeoff preferences
+4. **User Calibration** - preferences, communication style
+5. **Conceptual Topology** - hub stability, link density, conceptual centers
+6. **Tool Fluency** - sequence entropy, fluent tools (>80% probability)
+
+Confidence levels:
+- `high` (≥80%): Well-calibrated, trust the patterns
+- `moderate` (40-80%): Useful but evolving
+- `developing` (10-40%): Learning, be adaptive
+- `nascent` (<10%): New collaboration, calibration still forming
 
 ### Configuration
 
