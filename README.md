@@ -158,7 +158,6 @@ Sift stores data in two locations:
 
 [sift_hardware_status](#sift_hardware_status) · [sift_hardware_patterns](#sift_hardware_patterns) · [sift_hardware_events](#sift_hardware_events) · [sift_budget_request](#sift_budget_request) · [sift_budget_stats](#sift_budget_stats) · [sift_memory_sqlite_config](#sift_memory_sqlite_config) · [sift_memory_cache_status](#sift_memory_cache_status) · [sift_stream_read](#sift_stream_read) · [sift_stream_close](#sift_stream_close)
 
----
 
 ## Memory Tools
 
@@ -174,7 +173,6 @@ Creates a new memory entry that persists across sessions. Memories are automatic
 Remember that in this project we use snake_case for Python and camelCase for JavaScript
 ```
 
----
 
 <a name="sift_memory_get"></a>
 ### sift_memory_get
@@ -186,7 +184,6 @@ Returns full details of a specific memory including metadata, timestamps, and ac
 Show me the details of that authentication pattern you mentioned
 ```
 
----
 
 <a name="sift_memory_search"></a>
 ### sift_memory_search
@@ -198,7 +195,6 @@ Searches memories using FTS5 full-text search with synonym expansion and relevan
 What do you remember about our authentication system?
 ```
 
----
 
 <a name="sift_memory_list"></a>
 ### sift_memory_list
@@ -210,7 +206,6 @@ Returns memories filtered by type, status, or parent. Useful for seeing all acti
 Show me all the gotchas you've learned about this codebase
 ```
 
----
 
 <a name="sift_memory_update"></a>
 ### sift_memory_update
@@ -222,7 +217,6 @@ Modifies an existing memory's status (open, in_progress, done), priority, title,
 Mark the authentication refactor task as complete
 ```
 
----
 
 <a name="sift_memory_archive"></a>
 ### sift_memory_archive
@@ -234,7 +228,6 @@ Sets a memory's status to 'archived' but preserves all links, decisions, and ref
 Archive the old authentication notes, we've moved to a new system
 ```
 
----
 
 <a name="sift_memory_synthesize"></a>
 ### sift_memory_synthesize
@@ -246,7 +239,6 @@ Creates a new synthesis memory linking to source memories. Sources are marked as
 Combine everything you learned about the database issues into a single summary
 ```
 
----
 
 <a name="sift_memory_expand"></a>
 ### sift_memory_expand
@@ -258,7 +250,6 @@ Returns the synthesis memory plus all source memories that were consolidated. Us
 Show me the original memories that went into that database summary
 ```
 
----
 
 <a name="sift_memory_decide"></a>
 ### sift_memory_decide
@@ -270,7 +261,6 @@ Stores a decision with its rationale, linked to a specific plan. Decisions are q
 We decided to use PostgreSQL instead of MongoDB because we need ACID transactions
 ```
 
----
 
 <a name="sift_memory_decisions"></a>
 ### sift_memory_decisions
@@ -282,7 +272,6 @@ Search through recorded decisions by plan or keyword. Helps recall why past arch
 What decisions have we made about the database?
 ```
 
----
 <a name="sift_memory_supersede"></a>
 ### sift_memory_supersede
 Replace a previous decision.
@@ -290,7 +279,6 @@ Updates a decision with a new one while keeping history. The old decision is mar
 ```
 Actually, let's use Redis instead of PostgreSQL for the session store
 ```
----
 
 <a name="sift_memory_reflect"></a>
 ### sift_memory_reflect
@@ -302,7 +290,6 @@ Records Claude's thinking process, observations about the codebase, or lessons f
 That's not right - we use UTC timestamps, not local time. Remember that.
 ```
 
----
 
 <a name="sift_memory_reflections"></a>
 ### sift_memory_reflections
@@ -314,7 +301,6 @@ Query Claude's logged reflections to understand past reasoning or find patterns 
 What corrections have you had to make in this project?
 ```
 
----
 <a name="sift_memory_reflect_trajectory"></a>
 ### sift_memory_reflect_trajectory
 Reflect on a chain of memories.
@@ -322,7 +308,6 @@ Records insights about how work evolved over time—patterns across chains, arc 
 ```
 Looking back at the authentication work, we pivoted from JWT to sessions mid-way through
 ```
----
 <a name="sift_memory_trajectory_reflections"></a>
 ### sift_memory_trajectory_reflections
 Query trajectory reflections.
@@ -330,7 +315,6 @@ Search through trajectory reflections to find patterns in how work evolved. Filt
 ```
 What trajectory patterns have you noticed in this project?
 ```
----
 
 <a name="sift_memory_link"></a>
 ### sift_memory_link
@@ -342,7 +326,6 @@ Establishes relationships between memories: `blocks` (task A blocks task B), `re
 The database migration needs to be done before we can deploy the new API
 ```
 
----
 
 <a name="sift_memory_unlink"></a>
 ### sift_memory_unlink
@@ -354,7 +337,6 @@ Removes a previously created relationship between two memories.
 The migration is done, so it's no longer blocking deployment
 ```
 
----
 
 <a name="sift_memory_deps"></a>
 ### sift_memory_deps
@@ -366,7 +348,6 @@ Shows what blocks a task or what a task is blocking. Useful for understanding wo
 What's blocking the deployment task?
 ```
 
----
 
 <a name="sift_memory_ready"></a>
 ### sift_memory_ready
@@ -378,7 +359,6 @@ Returns tasks that have no unfinished dependencies and are ready to work on.
 What tasks can I work on right now?
 ```
 
----
 
 <a name="sift_memory_stale"></a>
 ### sift_memory_stale
@@ -390,7 +370,6 @@ Lists memories that haven't been accessed in a specified number of days. Useful 
 Are there any old memories we should review or clean up?
 ```
 
----
 
 <a name="sift_memory_stats"></a>
 ### sift_memory_stats
@@ -402,7 +381,6 @@ Shows counts by type and status, active patterns, recent corrections, and databa
 Give me an overview of what you remember about this project
 ```
 
----
 <a name="sift_memory_context"></a>
 ### sift_memory_context
 Generate rich session context.
@@ -410,7 +388,6 @@ Traverses the memory chain to build context: journey (origin, milestones), theme
 ```
 What's the context of our work together?
 ```
----
 <a name="sift_memory_traverse"></a>
 ### sift_memory_traverse
 Walk the memory chain.
@@ -418,7 +395,6 @@ Follows links backwards through memory history, showing how experiences connect.
 ```
 Show me how we got to this point in the project
 ```
----
 <a name="sift_memory_origin"></a>
 ### sift_memory_origin
 Find the start of a memory chain.
@@ -426,7 +402,6 @@ Traverses backwards to find the first memory in a chain. Returns the origin memo
 ```
 Where did this line of work begin?
 ```
----
 <a name="sift_memory_network"></a>
 ### sift_memory_network
 Explore memory graph structure.
@@ -434,7 +409,6 @@ Analyzes memory connections as a network. Four modes: `hubs` (most connected), `
 ```
 What are the central themes in your memory?
 ```
----
 
 <a name="sift_memory_challenge"></a>
 ### sift_memory_challenge
@@ -446,7 +420,6 @@ Generates adversarial queries (negations, revision cues) and searches both memor
 Challenge the assumption that our API always returns JSON
 ```
 
----
 
 <a name="sift_memory_challenge_evidence"></a>
 ### sift_memory_challenge_evidence
@@ -457,7 +430,6 @@ Returns full details of supporting evidence, counterevidence, or evolution timel
 ```
 Show me the counterevidence from that challenge
 ```
----
 
 <a name="sift_memory_config"></a>
 ### sift_memory_config
@@ -469,7 +441,6 @@ Shows current search ranking weights for frequency, recency, priority, and conte
 How are memory search results being ranked?
 ```
 
----
 
 <a name="sift_memory_tune"></a>
 ### sift_memory_tune
@@ -481,7 +452,6 @@ Modifies how memories are ranked in search results. Requires a rationale for tra
 Prioritize more recent memories in search results
 ```
 
----
 
 <a name="sift_memory_backups"></a>
 ### sift_memory_backups
@@ -493,7 +463,6 @@ Shows available backups of the memory database, created automatically each sessi
 Are there any memory backups available?
 ```
 
----
 
 <a name="sift_memory_restore"></a>
 ### sift_memory_restore
@@ -505,7 +474,6 @@ Restores the memory database from a previous backup. Use if data was accidentall
 Restore the memory database from yesterday's backup
 ```
 
----
 
 <a name="sift_memory_import"></a>
 ### sift_memory_import
@@ -517,7 +485,6 @@ Converts a markdown file into a memory entry. Useful for migrating existing docu
 Import the ARCHITECTURE.md file as a plan memory
 ```
 
----
 
 ## Search & Edit Tools
 
@@ -531,7 +498,6 @@ Searches the indexed workspace using SQLite FTS5. Supports boolean queries (AND,
 Find all files that mention both "authentication" and "token"
 ```
 
----
 
 <a name="sift_read"></a>
 ### sift_read
@@ -543,7 +509,6 @@ Reads file contents with line numbers for accurate editing. Supports partial rea
 Show me the handleAuth function in auth.js
 ```
 
----
 
 <a name="sift_edit"></a>
 ### sift_edit
@@ -555,7 +520,6 @@ Performs find/replace operations with automatic whitespace normalization. Suppor
 Replace the hardcoded timeout of 5000 with a constant TIMEOUT_MS
 ```
 
----
 
 <a name="sift_update"></a>
 ### sift_update
@@ -567,7 +531,6 @@ Straightforward text replacement with clear error messages. Fails if the target 
 Change the function name from processData to processUserData
 ```
 
----
 
 <a name="sift_write"></a>
 ### sift_write
@@ -579,7 +542,6 @@ Creates new files or completely replaces existing file contents. Creates parent 
 Create a new utils.js file with helper functions for date formatting
 ```
 
----
 
 <a name="sift_batch"></a>
 ### sift_batch
@@ -591,7 +553,6 @@ Executes multiple edits as a single atomic operation. All succeed or all fail, p
 Rename the "user" variable to "currentUser" in all three files
 ```
 
----
 
 <a name="sift_transform"></a>
 ### sift_transform
@@ -603,7 +564,6 @@ Transforms file contents using SQL queries with regex_replace, string functions,
 Convert all console.log statements to use our logger instead
 ```
 
----
 
 <a name="sift_sql"></a>
 ### sift_sql
@@ -615,7 +575,6 @@ Executes SQL queries on piped text input. Useful for filtering, transforming, or
 Parse this CSV and show me only rows where the status is "failed"
 ```
 
----
 
 <a name="sift_workspace"></a>
 ### sift_workspace
@@ -627,7 +586,6 @@ Controls the workspace index: init, status, refresh, or rebuild. The index auto-
 Refresh the search index to pick up recent file changes
 ```
 
----
 
 ## Context Tools
 
@@ -643,7 +601,6 @@ Start, end, get, or query sessions. Sessions track conversation context for pres
 Start tracking this conversation
 ```
 
----
 
 <a name="sift_context_save"></a>
 ### sift_context_save
@@ -655,7 +612,6 @@ Stores important messages and tool calls to the context database with token esti
 Save this important exchange about the architecture decision
 ```
 
----
 
 <a name="sift_context_search"></a>
 ### sift_context_search
@@ -667,7 +623,6 @@ Full-text search across past conversations using FTS5 boolean queries.
 What did we discuss about authentication last week?
 ```
 
----
 
 <a name="sift_context_query"></a>
 ### sift_context_query
@@ -679,7 +634,6 @@ Run SQL queries on sessions, messages, and tool_calls tables for advanced analys
 Show me all sessions from this project
 ```
 
----
 
 <a name="sift_context_link"></a>
 ### sift_context_link
@@ -691,7 +645,6 @@ Creates bidirectional relationship between a context message and a memory entry.
 Link this conversation to the authentication plan
 ```
 
----
 
 <a name="sift_context_synthesize"></a>
 ### sift_context_synthesize
@@ -703,7 +656,6 @@ Stores a summary for a session while preserving full conversation for archive.
 Summarize what we accomplished in this session
 ```
 
----
 
 <a name="sift_context_archive"></a>
 ### sift_context_archive
@@ -715,7 +667,6 @@ Moves verbatim messages to archive database, keeps summary in main database.
 Archive old sessions to save space
 ```
 
----
 
 <a name="sift_context_stats"></a>
 ### sift_context_stats
@@ -727,7 +678,6 @@ Shows session counts, message counts, storage size, and current session info.
 How much conversation history do you have?
 ```
 
----
 
 <a name="sift_context_stale"></a>
 ### sift_context_stale
@@ -739,7 +689,6 @@ Two tiers: immediate (ended, no summary) and deep (has summary, no memory link).
 What sessions need consolidation?
 ```
 
----
 
 <a name="sift_context_memory"></a>
 ### sift_context_memory
@@ -751,7 +700,6 @@ Returns the full conversation that led to a memory being created, including surr
 Show me the conversation that led to this decision
 ```
 
----
 
 ## Web & Repository Tools
 
@@ -765,7 +713,6 @@ Downloads and indexes a website for offline searching. Respects robots.txt, foll
 Index the React documentation so you can reference it offline
 ```
 
----
 
 <a name="sift_web_search"></a>
 ### sift_web_search
@@ -777,7 +724,6 @@ Full-text search across crawled websites. Supports boolean operators and returns
 Search the React docs for information about useEffect cleanup
 ```
 
----
 
 <a name="sift_web_query"></a>
 ### sift_web_query
@@ -789,7 +735,6 @@ Run SQL queries directly on the web content database for advanced filtering and 
 Find all pages in the docs that mention "deprecated"
 ```
 
----
 
 <a name="sift_web_stats"></a>
 ### sift_web_stats
@@ -801,7 +746,6 @@ Shows page count, word count, domains indexed, and crawl timestamps for a web da
 How much documentation do you have indexed?
 ```
 
----
 
 <a name="sift_web_refresh"></a>
 ### sift_web_refresh
@@ -813,7 +757,6 @@ Re-fetches pages that are older than a specified age. Keeps documentation caches
 Update any cached documentation pages older than a week
 ```
 
----
 
 <a name="sift_web_manifest"></a>
 ### sift_web_manifest
@@ -825,7 +768,6 @@ Shows per-domain page counts, word counts, crawl dates, and freshness statistics
 What documentation sources do you have cached and when were they last updated?
 ```
 
----
 
 <a name="sift_web_search_multi"></a>
 ### sift_web_search_multi
@@ -837,7 +779,6 @@ Searches multiple web databases simultaneously and merges results by relevance. 
 Search all cached docs for information about rate limiting
 ```
 
----
 
 <a name="sift_web_merge"></a>
 ### sift_web_merge
@@ -849,7 +790,6 @@ Combines multiple web databases into a single unified database. Deduplicates by 
 Combine the React and TypeScript doc caches into a single database
 ```
 
----
 <a name="sift_web_fetch"></a>
 ### sift_web_fetch
 Fetch a single URL.
@@ -857,7 +797,6 @@ Fetches a single page and returns structured content (title, description, text, 
 ```
 Fetch the API documentation page and extract all the links
 ```
----
 
 <a name="sift_repo_clone"></a>
 ### sift_repo_clone
@@ -869,7 +808,6 @@ Clones a git repository and indexes its source code into a searchable database. 
 Clone and index the lodash repository so we can study their implementation
 ```
 
----
 
 <a name="sift_repo_search"></a>
 ### sift_repo_search
@@ -881,7 +819,6 @@ Full-text search across an indexed repository. Filter by language or file patter
 Search the lodash repo for debounce implementation
 ```
 
----
 
 <a name="sift_repo_query"></a>
 ### sift_repo_query
@@ -893,7 +830,6 @@ Run SQL queries on indexed repository files. Query by language, line count, file
 Find the largest files in the indexed repository
 ```
 
----
 
 <a name="sift_repo_stats"></a>
 ### sift_repo_stats
@@ -905,7 +841,6 @@ Shows file count, line count, language breakdown, and clone metadata for an inde
 How big is the indexed lodash repository?
 ```
 
----
 
 <a name="sift_repo_list"></a>
 ### sift_repo_list
@@ -917,7 +852,6 @@ Shows all repository databases in the current directory.
 What repositories have you indexed?
 ```
 
----
 
 ## Fingerprint Tools
 
@@ -933,7 +867,6 @@ Returns posture (engagement patterns), priors (behaviors to follow), and stance 
 Load my collaboration fingerprint
 ```
 
----
 
 <a name="sift_fingerprint_generate"></a>
 ### sift_fingerprint_generate
@@ -945,7 +878,6 @@ Synthesizes 6 dimensions: engagement rhythm, learning signature, reasoning style
 Generate a new fingerprint from our collaboration data
 ```
 
----
 
 <a name="sift_fingerprint_compare"></a>
 ### sift_fingerprint_compare
@@ -957,7 +889,6 @@ Shows evolution over time with deltas per dimension and magnitude. Use to unders
 How has our collaboration evolved since last month?
 ```
 
----
 
 <a name="sift_fingerprint_drift"></a>
 ### sift_fingerprint_drift
@@ -969,7 +900,6 @@ Returns drift warnings when current session behavior differs significantly from 
 Am I behaving differently than usual in this session?
 ```
 
----
 
 ## Hardware Awareness Tools
 
@@ -985,7 +915,6 @@ Returns current state of memory, I/O, database, and process resources. Includes 
 What's the current resource state?
 ```
 
----
 
 <a name="sift_hardware_patterns"></a>
 ### sift_hardware_patterns
@@ -997,7 +926,6 @@ Shows tool call sequences and their probabilities. The system learns which tools
 What patterns have you learned about my tool usage?
 ```
 
----
 
 <a name="sift_hardware_events"></a>
 ### sift_hardware_events
@@ -1009,7 +937,6 @@ Shows state changes, adaptations, wall hits, and diagnoses. Use to understand pa
 Show me resource events from the last hour
 ```
 
----
 
 <a name="sift_budget_request"></a>
 ### sift_budget_request
@@ -1021,7 +948,6 @@ Request memory, I/O, and latency budget for an operation. Returns what's availab
 Can I get 100MB for a comprehensive search?
 ```
 
----
 
 <a name="sift_budget_stats"></a>
 ### sift_budget_stats
@@ -1033,7 +959,6 @@ Shows how actual resource usage compares to budgeted amounts, helping calibrate 
 How accurate have my budget estimates been?
 ```
 
----
 
 <a name="sift_memory_sqlite_config"></a>
 ### sift_memory_sqlite_config
@@ -1045,7 +970,6 @@ Shows mmap_size, cache_size, journal_mode, WAL status, and memory usage. Allows 
 What are the current SQLite settings?
 ```
 
----
 
 <a name="sift_memory_cache_status"></a>
 ### sift_memory_cache_status
@@ -1057,7 +981,6 @@ Shows memories ranked by importance score (recency, frequency, linkage, type) an
 Which memories are most important right now?
 ```
 
----
 
 <a name="sift_stream_read"></a>
 ### sift_stream_read
@@ -1069,7 +992,6 @@ Read next chunk from a streaming result. Used for large results that exceed sing
 Read the next chunk from that stream
 ```
 
----
 
 <a name="sift_stream_close"></a>
 ### sift_stream_close
@@ -1081,7 +1003,6 @@ Closes a streaming operation and releases shared memory resources.
 Close the search stream
 ```
 
----
 
 ## CLI Commands
 
@@ -1099,7 +1020,6 @@ sift --monitor
 
 Press `q` to quit, `h` for help, `s` for stress test.
 
----
 
 ## Verify Download
 
