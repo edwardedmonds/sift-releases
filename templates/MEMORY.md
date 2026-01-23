@@ -1,3 +1,4 @@
+<!-- sift-template-0.11.0-alpha-alpha -->
 # Memory System
 
 Persistent, queryable storage that maintains collaboration continuity across sessions. 

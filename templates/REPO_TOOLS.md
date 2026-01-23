@@ -1,4 +1,4 @@
-<!-- sift-template-0.9.2 -->
+<!-- sift-template-0.11.0-alpha-alpha -->
 # Repo Tools
 
 Clone and index external git repositories for searchable reference.

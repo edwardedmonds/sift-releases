@@ -1,4 +1,4 @@
-<!-- sift-template-0.9.2 -->
+<!-- sift-template-0.11.0-alpha-alpha -->
 # Web Tools
 
 Crawl and cache documentation locally for instant search.
@@ -7,17 +7,20 @@ Crawl and cache documentation locally for instant search.
 
 ## 1. WHEN TO USE
 
-**PREFERRED over WebFetch for documentation sites:**
+**PREFERRED over WebFetch:**
 
-| Approach | Speed | Network | Persistence |
-|----------|-------|---------|-------------|
-| `sift_web_crawl` + `sift_web_search` | 100-500x faster | Once | SQLite DB |
-| `WebFetch` | Baseline | Every request | None |
+| Approach | Use Case | Persistence |
+|----------|----------|-------------|
+| `sift_web_fetch` | Single page | Optional (with `db` param) |
+| `sift_web_crawl` + `sift_web_search` | Multi-page docs | SQLite DB |
+| `WebFetch` | One-off, no caching | None |
 
-**Workflow:**
+**Workflow for documentation sites:**
 1. `sift_web_crawl` - Crawl docs once, store in database
 2. `sift_web_search` - Search instantly (no network)
 3. `sift_web_refresh` - Update stale pages periodically
+
+**For single pages:** Use `sift_web_fetch` - returns structured JSON with title, content, links.
 
 ---
 
@@ -40,6 +43,17 @@ Crawl a website into a searchable database.
 | `timing_profile` | enum | `stealth`, `polite`, `aggressive` |
 | `user_agent` | string | Custom User-Agent |
 
+### sift_web_fetch
+Fetch a single URL and return structured content.
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `url`* | string | URL to fetch |
+| `db` | string | Store in database for later searching |
+| `extract_links` | boolean | Return discovered links (default: false) |
+| `include_html` | boolean | Include raw HTML (default: false) |
+| `user_agent` | string | Custom User-Agent |
+| `timeout_ms` | integer | Request timeout (default: 30000) |
+Returns: `{url, final_url, status_code, title, description, content, word_count, links?, html?, stored?, fetched_at}`
 ### sift_web_search
 
 Search cached documentation with FTS5.
@@ -123,6 +137,20 @@ Merge multiple caches.
 
 ## 3. EXAMPLES
 
+### Fetch single page
+```json
+{
+  "url": "https://docs.example.com/api/auth",
+  "extract_links": true
+}
+```
+### Fetch and cache for later
+```json
+{
+  "url": "https://docs.example.com/api/auth",
+  "db": "api-docs.db"
+}
+```
 ### Crawl documentation site
 ```json
 {

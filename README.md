@@ -148,7 +148,7 @@ Sift stores data in two locations:
 
 ### Web & Repository
 
-[sift_web_crawl](#sift_web_crawl) · [sift_web_search](#sift_web_search) · [sift_web_query](#sift_web_query) · [sift_web_stats](#sift_web_stats) · [sift_web_manifest](#sift_web_manifest) · [sift_web_refresh](#sift_web_refresh) · [sift_web_search_multi](#sift_web_search_multi) · [sift_web_merge](#sift_web_merge) · [sift_repo_clone](#sift_repo_clone) · [sift_repo_search](#sift_repo_search) · [sift_repo_query](#sift_repo_query) · [sift_repo_stats](#sift_repo_stats) · [sift_repo_list](#sift_repo_list)
+[sift_web_crawl](#sift_web_crawl) · [sift_web_search](#sift_web_search) · [sift_web_query](#sift_web_query) · [sift_web_stats](#sift_web_stats) · [sift_web_manifest](#sift_web_manifest) · [sift_web_refresh](#sift_web_refresh) · [sift_web_search_multi](#sift_web_search_multi) · [sift_web_merge](#sift_web_merge) · [sift_web_fetch](#sift_web_fetch) · [sift_repo_clone](#sift_repo_clone) · [sift_repo_search](#sift_repo_search) · [sift_repo_query](#sift_repo_query) · [sift_repo_stats](#sift_repo_stats) · [sift_repo_list](#sift_repo_list)
 
 ### Fingerprint
 
@@ -849,6 +849,14 @@ Combines multiple web databases into a single unified database. Deduplicates by 
 Combine the React and TypeScript doc caches into a single database
 ```
 
+---
+<a name="sift_web_fetch"></a>
+### sift_web_fetch
+Fetch a single URL.
+Fetches a single page and returns structured content (title, description, text, links). Optionally stores to database for later FTS5 searching. Use for one-off page fetches; use sift_web_crawl for multi-page documentation sites.
+```
+Fetch the API documentation page and extract all the links
+```
 ---
 
 <a name="sift_repo_clone"></a>

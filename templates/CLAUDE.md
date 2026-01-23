@@ -1,4 +1,4 @@
-<!-- begin sift-template-0.10.0 -->
+<!-- begin sift-template-0.11.0-alpha-alpha -->
 # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
@@ -171,7 +171,7 @@ Web crawling requires libcurl:
 
 ## Architecture
 
-Sift provides **77 MCP tools** across 8 subsystems:
+Sift provides **78 MCP tools** across 8 subsystems:
 
 ### Subsystems
 
@@ -182,7 +182,7 @@ Sift provides **77 MCP tools** across 8 subsystems:
 | SQL | 2 | Text transformation, regex, CSV parsing | `SQL_TOOLS.md` |
 | Memory | 38 | Plans, tasks, decisions, reflections, fingerprints | `MEMORY.md` |
 | Context | 10 | Session tracking, conversation history | `CONTEXT_TOOLS.md` |
-| Web | 8 | Crawl, search, query cached docs | `WEB_TOOLS.md` |
+| Web | 9 | Crawl, fetch, search, query cached docs | `WEB_TOOLS.md` |
 | Repo | 5 | Clone, index, search git repos | `REPO_TOOLS.md` |
 | Hardware | 7 | Resource monitoring, budgets, streaming | - |
 
@@ -368,4 +368,4 @@ sift_memory_network(mode: "hubs")  // See what's central, not just recent
 - **Address each other by first names** — Claude and Edward
 - **Don't bump version for build system fixes** — Version changes are for user-facing features
 - **Binary release workflow** — tag → build → push to sift-releases repo
-<!-- end sift-template-0.10.0 -->
+<!-- end sift-template-0.11.0-alpha-alpha -->
