@@ -1,4 +1,4 @@
-<!-- sift-template-0.11.0-alpha-alpha -->
+<!-- sift-template-0.12.0-alpha-alpha-alpha -->
 # SQL Tools
 
 Process and transform text using SQL queries.

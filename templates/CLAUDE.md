@@ -1,4 +1,4 @@
-<!-- begin sift-template-0.11.0-alpha-alpha -->
+<!-- begin sift-template-0.12.0-alpha-alpha-alpha -->
 # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
@@ -369,4 +369,4 @@ sift_memory_network(mode: "hubs")  // See what's central, not just recent
 - **Address each other by first names** — Claude and Edward
 - **Don't bump version for build system fixes** — Version changes are for user-facing features
 - **Binary release workflow** — tag → build → push to sift-releases repo
-<!-- end sift-template-0.11.0-alpha-alpha -->
+<!-- end sift-template-0.12.0-alpha-alpha-alpha -->

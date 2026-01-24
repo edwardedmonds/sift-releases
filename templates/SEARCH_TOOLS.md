@@ -1,4 +1,4 @@
-<!-- sift-template-0.11.0-alpha-alpha -->
+<!-- sift-template-0.12.0-alpha-alpha-alpha -->
 # Search Tools
 
 Fast full-text search across your codebase using FTS5.
